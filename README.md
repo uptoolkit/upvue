@@ -160,12 +160,12 @@ Everyone can contribute and propose any components or post an issues, make a sug
 
 # To dos : 
 
-[x] Testing using Jest 
-[x] Customising AntDesign style 
-[x] Documenting code
-[x] Setting up Storybook
-[x] More typehint and typescript
-[x] Add useful components and libs forever :-)
+- [x] Testing using Jest 
+- [x] Customising AntDesign style 
+- [x] Documenting code
+- [x] Setting up Storybook
+- [x] More typehint and typescript
+- [x] Add useful components and libs forever :-)
 
 # License
 
