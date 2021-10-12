@@ -7,10 +7,10 @@
     "name": "Daniel Sum",
     "email": "daniel@cherrypulp.com"
   },
-  "repository": "https://github.com/uptoolkit/upvue/Up Vue Toolkit",
+  "repository": "https://github.com/uptoolkit/upvue",
   "scripts": {
-    "dev": "vuepress dev",
-    "build": "vuepress build"
+    "docs:dev": "vuepress dev",
+    "docs:build": "vuepress build"
   },
   "license": "MIT",
   "devDependencies": {
