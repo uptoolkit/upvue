@@ -1,0 +1,19 @@
+{
+  "name": "upvue-docs",
+  "version": "0.0.1",
+  "description": "Vue toolkit for changemakers",
+  "main": "index.js",
+  "authors": {
+    "name": "Daniel Sum",
+    "email": "daniel@cherrypulp.com"
+  },
+  "repository": "https://github.com/uptoolkit/upvue/Up Vue Toolkit",
+  "scripts": {
+    "dev": "vuepress dev",
+    "build": "vuepress build"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "vuepress": "^1.5.3"
+  }
+}
