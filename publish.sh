@@ -16,7 +16,8 @@ npm version patch
 npm publish
 
 # Push to repository
-git add -A
+git add .
+git status
 git commit -m 'feat: publish new release'
 git push
 
