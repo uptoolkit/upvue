@@ -18,8 +18,7 @@ npm publish
 # Push to repository
 git add -A
 git commit -m 'feat: publish new release'
-git push -f git@github.com:uptoolkit/upvue.git main
-
+git push
 
 # Publish the docs
 cd docs
