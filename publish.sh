@@ -11,13 +11,15 @@ rm -R dist/api
 rm -R dist/img
 rm dist/favicon.ico
 
+# Publish to npm
+npm version minor
+npm publish
+
 # Push to repository
 git add -A
 git commit -m 'feat: publish new release'
 git push -f git@github.com:uptoolkit/upvue.git main
 
-# Publish to npm
-npm publish
 
 # Publish the docs
 cd docs
