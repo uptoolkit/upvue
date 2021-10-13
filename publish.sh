@@ -12,7 +12,7 @@ rm -R dist/img
 rm dist/favicon.ico
 
 # Publish to npm
-npm version minor
+npm version patch
 npm publish
 
 # Push to repository
