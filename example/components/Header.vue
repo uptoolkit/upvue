@@ -12,7 +12,7 @@
         </div>
         <div class="-mr-2 -my-2 md:hidden">
           <PopoverButton
-              class="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
+              class="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500">
             <span class="sr-only">Open menu</span>
             <MenuIcon class="h-6 w-6" aria-hidden="true"/>
           </PopoverButton>
@@ -20,7 +20,7 @@
         <PopoverGroup as="nav" class="hidden md:flex space-x-10">
           <Popover class="relative" v-slot="{ open }">
             <PopoverButton
-                :class="[open ? 'text-gray-900' : 'text-gray-500', 'group bg-white rounded-md inline-flex items-center text-base font-medium hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500']">
+                :class="[open ? 'text-gray-900' : 'text-gray-500', 'group bg-white rounded-md inline-flex items-center text-base font-medium hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500']">
               <span>{{ t("About") }}</span>
               <ChevronDownIcon
                   :class="[open ? 'text-gray-600' : 'text-gray-400', 'ml-2 h-5 w-5 group-hover:text-gray-500']"
@@ -40,7 +40,7 @@
                     <a href="#"
                        class="-m-3 p-3 flex items-start rounded-lg hover:bg-gray-50">
                       <div
-                          class="flex-shrink-0 flex items-center justify-center h-10 w-10 rounded-md bg-gradient-to-r from-purple-600 to-indigo-600 text-white sm:h-12 sm:w-12">
+                          class="flex-shrink-0 flex items-center justify-center h-10 w-10 rounded-md bg-gradient-to-r from-blue-600 to-blue-600 text-white sm:h-12 sm:w-12">
                         icon
                       </div>
                       <div class="ml-4">
@@ -70,7 +70,7 @@
             {{ t("Sign in") }}
           </a>
           <a href="/register"
-             class="ml-8 whitespace-nowrap inline-flex items-center justify-center bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white hover:from-purple-700 hover:to-indigo-700">
+             class="ml-8 whitespace-nowrap inline-flex items-center justify-center bg-gradient-to-r from-blue-600 to-blue-600 bg-origin-border px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white hover:from-blue-700 hover:to-blue-700">
             {{ t("Register") }}
           </a>
         </div>
@@ -92,7 +92,7 @@
                 </div>
                 <div class="-mr-2">
                   <PopoverButton
-                      class="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
+                      class="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500">
                     <span class="sr-only">Close menu</span>
                     <XIcon class="h-6 w-6" aria-hidden="true"/>
                   </PopoverButton>
@@ -103,7 +103,7 @@
                   <a v-for="item in solutions" :key="item.name" :href="item.href"
                      class="-m-3 p-3 flex items-center rounded-lg hover:bg-gray-50">
                     <div
-                        class="flex-shrink-0 flex items-center justify-center h-10 w-10 rounded-md bg-gradient-to-r from-purple-600 to-indigo-600 text-white">
+                        class="flex-shrink-0 flex items-center justify-center h-10 w-10 rounded-md bg-gradient-to-r from-blue-600 to-blue-600 text-white">
                       <component :is="item.icon" class="h-6 w-6" aria-hidden="true"/>
                     </div>
                     <div class="ml-4 text-base font-medium text-gray-900">
@@ -124,7 +124,7 @@
               </div>
               <div class="mt-6">
                 <a href="#"
-                   class="w-full flex items-center justify-center bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white hover:from-purple-700 hover:to-indigo-700">
+                   class="w-full flex items-center justify-center bg-gradient-to-r from-blue-600 to-blue-600 bg-origin-border px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white hover:from-blue-700 hover:to-blue-700">
                   {{ t("Sign up") }}
                 </a>
                 <p class="mt-6 text-center text-base font-medium text-gray-500">
@@ -153,7 +153,7 @@ import {
 } from '@heroicons/vue/outline'
 import {ChevronDownIcon} from '@heroicons/vue/solid'
 
-import {useUp} from "../../lib/core/UpVue";
+import {useUp} from "../../src/core/UpVue";
 
 defineComponent({
   Popover,

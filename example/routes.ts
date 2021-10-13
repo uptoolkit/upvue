@@ -3,7 +3,7 @@ import Home from './pages/Home.vue';
 import App from './pages/App.vue';
 import Login from './pages/Login.vue';
 import Register from './pages/Register.vue';
-import auth from '../lib/middlewares/auth';
+import auth from '../src/middlewares/auth';
 
 const routes: RouteRecordRaw[] = [
     {

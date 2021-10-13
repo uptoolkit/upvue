@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import UpLayout from "../lib/layouts/UpLayout.vue";
+import UpLayout from "../src/layouts/UpLayout.vue";
 
 export default {
   name: 'App',

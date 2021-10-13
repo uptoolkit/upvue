@@ -1,6 +1,6 @@
 import {createApp} from 'vue'
 import App from './App.vue'
-import UpVue from "../lib/core/UpVue";
+import UpVue from "../src/core/UpVue";
 import router from "./routes";
 import store from "./store";
 import 'ant-design-vue/dist/antd.css';

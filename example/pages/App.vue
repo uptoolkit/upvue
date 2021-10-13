@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import AppLayout from "../../lib/layouts/AppLayout.vue";
+import AppLayout from "../../src/layouts/AppLayout.vue";
 export default {
   name: "App",
   components: {AppLayout}

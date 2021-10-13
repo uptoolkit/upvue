@@ -13,7 +13,7 @@ export default defineConfig({
     publicDir: false,
     lib:
       {
-        entry: path.resolve(__dirname, 'lib/index.ts'),
+        entry: path.resolve(__dirname, 'src/index.ts'),
         name: 'upvue',
         fileName: (format) => `index.${format}.js`
       }
@@ -38,7 +38,10 @@ export default defineConfig({
         "tailwindcss",
         "vue",
         "vue-router",
-        "vuex"
+        "vuex",
+        'ant-design-vue',
+        'collect.js',
+        'axios'
       ],
       output: {
         // Provide global variables to use in the UMD build

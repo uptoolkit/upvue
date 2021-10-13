@@ -19,7 +19,7 @@
 
 <script>
 import {defineComponent, h} from 'vue'
-import {useUp} from "../../lib/core/UpVue";
+import {useUp} from "../../src/core/UpVue";
 
 const footerNavigation = {
   social: [
