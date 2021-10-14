@@ -6,6 +6,12 @@ set -e
 # Push to repo
 vite build
 
+# Remove public assets
+
+rm -R dist/api
+rm -R dist/img
+rm -R dist/favicon.ico
+
 # Publish to npm
 npm version patch
 npm publish

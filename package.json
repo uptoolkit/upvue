@@ -6,11 +6,10 @@
   "license": "MIT",
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc --noEmit && vite build && rm -R dist/api && rm -R dist/img",
+    "build": "vue-tsc --noEmit && vite build",
     "serve": "vite preview",
     "docs:dev": "vuepress dev docs",
-    "docs:build": "vuepress build docs",
-    "publish": "bash publish.sh"
+    "docs:build": "vuepress build docs"
   },
   "main": "dist/index.js",
   "typings": "types/index.d.ts",
