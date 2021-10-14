@@ -28,7 +28,7 @@ npm publish
 # Push to repository
 git add .
 git status
-git commit -m '${TYPE}: ${MESSAGE} version ${s}'
+git commit -m "${TYPE}: ${MESSAGE} version ${s}"
 git push
 
 # Publish the docs
