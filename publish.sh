@@ -22,13 +22,10 @@ set -e
 vite build
 
 # Publish to npm
-npm version $VERSION
-npm publish
+npm version $VERSION && npm publish
 
 # Push to repository
-git add .
-git commit -m "${TYPE}: ${MESSAGE} version ${s}"
-git push
+git add -A && git commit -m "${TYPE}: ${MESSAGE}" && git push
 
 # Publish the docs
 bash docs.sh
