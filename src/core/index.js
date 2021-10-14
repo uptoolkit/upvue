@@ -1,3 +1,6 @@
-import * as UpVue from "./UpVue";
+import {useUp, UpVue} from "./UpVue";
 
-export default UpVue;
+export default {
+  UpVue,
+  useUp
+};

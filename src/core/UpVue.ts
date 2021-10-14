@@ -1,19 +1,23 @@
 import {reactive} from 'vue';
+import type {App} from 'vue';
 import Antd from 'ant-design-vue';
 import {message, notification} from 'ant-design-vue';
-import {VueI18n, useI18n, createI18n} from '@cherrypulp/i18n';
-import collect from 'collect.js';
+import {VueI18n, createI18n} from '@cherrypulp/i18n';
+import collect, {Collection} from 'collect.js';
 // @ts-ignore
 import {axios} from '@bundled-es-modules/axios';
 import UpLayout from '../layouts/UpLayout.vue';
 // @ts-ignore
 import Form from '../form';
-import {AxiosInstance} from "axios";
+import {Axios, AxiosInstance} from "axios";
+import I18n from "@cherrypulp/i18n/types/I18n";
+import {Store} from "vuex";
 
 /**
  * Define the vue options interface
  */
 interface VueOptions {
+    debug: boolean,
     project: {
         name: string,
         url: string,
@@ -22,51 +26,51 @@ interface VueOptions {
         }
     };
     i18n: Record<string, unknown>;
-    storeMode: string;
-    store: any;
+    storeMode: "reactive" | "vuex";
+    store: Store<unknown|object>;
     api: {
         url: string;
     };
-    translations: Record<string, object>;
+    translations: Record<string, object|string>;
     locale: string;
     locales: Record<string, object>;
+    exclude:Array<string>
 }
 
 /**
  * If defined we allow to use the window global of axios and translations
  */
 declare global {
-    interface Window {
-        axios: any;
+    interface window {
+        axios: Axios;
         translations: Record<string, unknown>;
+        __app: object
     }
 }
 
-let api:AxiosInstance;
-let http:AxiosInstance;
-let config:'collect.js';
-let i18n:object;
-let store:object;
-let form:object;
-let formApi:object;
+let api: AxiosInstance;
+let http: AxiosInstance;
+let config: Collection<object>;
+let i18n: I18n;
+let store: Store<object> | unknown;
+let form: Form;
+let formApi: Form;
 
 /**
  * Access to the instance a a singleton
  */
-let useUp:any;
-useUp = null;
+export let useUp:unknown|Function;
 
-const UpVue = {
+export const UpVue = {
 
-    install: (app: any, options: VueOptions) => {
+    install: (app: App, options: VueOptions) => {
 
         config = collect(options);
 
         /**
-         * Define the main needed global properties accessible through components or composition API
+         * Define the main needed global properties accessible through components with globals
          */
         app.config.globalProperties.$config = collect(options);
-
         app.config.globalProperties.$http = http = axios.create();
         app.config.globalProperties.$api = api = axios.create({
             baseURL: options.api.url,
@@ -74,8 +78,8 @@ const UpVue = {
         app.config.globalProperties.$message = message;
         app.config.globalProperties.$notification = notification;
 
-        // Define form helper and wrapper
-        form = function (data:object, options:object) {
+        // Define form helper and wrapper from the Form Lib
+        form = function (data: object, options: object) {
             return new Form(data, {
                 ...{
                     http
@@ -84,7 +88,7 @@ const UpVue = {
             });
         }
 
-        formApi = function (data:object, options:object) {
+        formApi = function (data: object, options: object) {
             return new Form(data, {
                 ...{
                     http: api
@@ -127,42 +131,34 @@ const UpVue = {
         app.provide('UpVue', options);
         app.component('UpLayout', UpLayout);
 
-        // Initialize the UpInstance singleton instance
+        // Initialize the UpInstance singleton instance for composition Api
         if (!useUp) {
-            useUp = (app: any, options: VueOptions) => {
-                return {
-                    api,
-                    http,
-                    config,
-                    store,
-                    form,
-                    formApi,
-                    message,
-                    notification,
-                    i18n,
-                    __: i18n.__.bind(i18n),
-                    t: i18n.__.bind(i18n),
-                    choice: i18n.choice.bind(i18n),
-                }
+
+            /**
+             * Add additionnals exported items
+             */
+            const exported = {
+                api,
+                http,
+                config,
+                store,
+                form,
+                formApi,
+                message,
+                notification,
+                i18n,
+                __: i18n.__.bind(i18n),
+                t: i18n.__.bind(i18n),
+                choice: i18n.choice.bind(i18n)
+            }
+
+            if (config.has('debug')) {
+                console.log('⤴ useUp() accessible vars', exported);
+            }
+
+            useUp = () => {
+                return exported
             };
         }
     },
 }
-
-/**
- * Export composition helpers
- */
-export {
-    useUp,
-    api,
-    http,
-    config,
-    message,
-    notification,
-    form,
-    formApi,
-    i18n,
-    store,
-}
-
-export default UpVue;

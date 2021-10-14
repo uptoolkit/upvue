@@ -7,7 +7,7 @@
 <script>
 import {defineComponent, ref} from 'vue';
 import {ConfigProvider} from "ant-design-vue";
-import {api, http, i18n, useUp} from "../core/UpVue";
+import {useUp} from "../core/UpVue";
 
 const UpLayout = defineComponent({
   components: [
@@ -19,13 +19,14 @@ const UpLayout = defineComponent({
       api: this.api,
       http: this.http,
       config: this.config,
-      t: i18n.__.bind(i18n),
-      choice: i18n.choice.bind(i18n),
+      i18n: this.i18n,
+      t: this.i18n.__.bind(this.i18n),
+      choice: this.i18n.choice.bind(this.i18n),
     }
   },
   setup() {
     const loading = ref(false);
-    let {config, message, notification} = useUp();
+    let {config, message, notification, api, http, i18n} = useUp();
 
     let locale = ref(config.get('locale'));
 
@@ -36,7 +37,8 @@ const UpLayout = defineComponent({
       http,
       config,
       message,
-      notification
+      notification,
+      i18n
     };
   },
 });

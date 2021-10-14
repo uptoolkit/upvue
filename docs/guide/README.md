@@ -2,18 +2,19 @@
 sidebar: auto
 ---
 
-# Guide
+# Up Vue
 
-## Why Up Vue ?
+## Why ?
 
-Kickstarting a project is somewhat very difficult because there are too much choices, too much setups and configs to do
-before just working on a project...
+🥸 : Bootstrapping a project is unexpectedly very difficult because there are so many choices, too many setups and configs to do before just working on a project...
 
-Up Vue help you to have everything you need to start for creating a webapp as simple as that :
+😩 : "Hell yeah, you're right. Javascript fatigue..."
+
+🥸 : Up Vue help you to have everything you need to start for creating a webapp as simple as that :
 
 - [Vue 3 for the Javascript framework](https://vuejs.org/)
-- [Tailwind as a Front-End Utilities class](https://tailwindcss.com/)
-- [DaisyUI as Tailwind components extension](https://daisyui.com/)
+- [Tailwind as a Front-End Utilities](https://tailwindcss.com/)
+- [DaisyUI a Tailwind components extension](https://daisyui.com/)
 - [AntDesignVue as Ui Library](https://antdv.com/)
 - [Axios for the ajax request](https://axios-http.com/)
 - [I18n for the translations helpers](https://www.npmjs.com/package/@cherrypulp/i18n)
@@ -23,20 +24,18 @@ Up Vue help you to have everything you need to start for creating a webapp as si
 - [DayJS as date helper](https://day.js.org/)
 - [Usefull middlewares and libs for VueX](https://vuex.vuejs.org/)
 
-At the optimum, you can just copy-paste a component or a layout making a breeze for your quick prototyping.
+🧐 : "Mmh, interesting..."
 
-At the minimum you will have a good designed boilerplate to create your own component following Up conventions or
-override it when you will feel the need.
+🥸 : At the best, you can just use our components or layouts making a breeze for your quick prototyping or web development with everything to start included.
 
-### Up Toolkit ecosystem
+🧐 : "Mmh, yes but what if I want to..."
 
-Up Vue is a part of the Up Toolkit ecosystem a set of packages and utilities for changemakers. For more informations go to :
+🥸 : Shut ! I know your dev syndrom... At the minimum, you will have a good boilerplate and UP to you to
+override it when you will feel the need. Thanks to our "[convention over configuration philosophy](https://en.wikipedia.org/wiki/Convention_over_configuration)" and [S.O.L.I.D principle](https://en.wikipedia.org/wiki/SOLID) :-).
 
-- [https://uptoolkit.com](https://uptoolkit.com)
+😁 : "Ok now I want to start !!!"
 
 ## Getting started
-
-### Install
 
 In your Vue project just make :
 
@@ -48,16 +47,17 @@ Then in your main app, do :
 
 ````javascript
 import {createApp} from 'vue'
-import UpVue from "upvue"
+import {UpVue} from "upvue"
 import router from "./routes"
 import store from "./store"
 import App from './App.vue'
-import 'ant-design-vue/dist/antd.css'
-import './index.css'
+
+import 'ant-design-vue/dist/antd.css' // optionnal
+import './index.css' // import tailwind base see: https://tailwindcss.com/
 
 createApp(App)
   /**
-   * 1. Import everything in Up to have an access through al your components
+   * 1. One base config to setup them all, this is the philosophy
    */
   .use(UpVue, {
     project: {
@@ -84,13 +84,19 @@ createApp(App)
     locales: [
       'en_EN', 'fr_FR'
     ],
+    //exclude: [
+    // 'antd' //-> if you don't want to include the Antd Design Ui Kit
+    //],
+    //override: {
+    // 'i18n' //-> if you want to override a package (just make sure that you implement the interface)
+    //}
   })
   .use(store) // Store for demo purpose
   .use(router) // Routing For Demo purpose
   .mount('#app');
 ````
 
-### Accessing to helpers using useUp
+### Accessing to helpers using useUp in your Composition Api
 
 In your component you can do :
 
@@ -147,17 +153,55 @@ export default {
 }
 </script>
 `````
-### What's the difference between Inject and useUp ?
+### What's the difference between inject and useUp() ?
 
-This is mainly a design pattern choice UP to you. With inject you can abstract the injection and replace the helper with the one you want and override Upvue easily but you can also if you change your import :-).
+This is mainly a design pattern UP to you :-). With inject you can abstract the injection and replace the helper with the one you want and import UpVue in one place but with useUp() you can also simply change the useUp import by a search and replace.
 
-## How to contribute ?
+## Digging deeper
+
+You can get full documentation or check our complete example :
+
+- [https://vue.uptoolkit.com](https://vue.uptoolkit.com)
+- [https://github.com/uptoolkit/upvue/tree/main/example](https://github.com/uptoolkit/upvue/tree/main/example)
+
+### Discover the whole ecosystem of Up Toolkit
+
+Up Vue is a part of the Up Toolkit ecosystem a set of packages and utilities for changemakers.
+
+For more information go to :
+
+- [https://uptoolkit.com](https://uptoolkit.com)
+
+# How to contribute ?
 
 Everyone can contribute and propose any components or post an issues, make a suggestion :
 
 - [https://github.com/uptoolkit/upvue/issues](https://github.com/uptoolkit/upvue/issues)
 - [You can also share your package in Awesome Up](https://github.com/uptoolkit)
 
-## License
+# To dos :
+
+- [x] Testing using Jest
+- [x] Customising AntDesign style
+- [x] Documenting code
+- [x] Setting up Storybook
+- [x] More typehint and typescript
+- [x] Add more useful components and libs :-)
+
+Any helps wanted !
+
+# Support us
+
+Support us on Open Collective or buy us a Tree :
+
+- [https://opencollective.com/uptoolkit](https://opencollective.com/uptoolkit)
+
+# License
 
 MIT
+
+This package is [Treeware](https://treeware.earth).
+
+If you use it in production, then we ask that you [**buy the world a tree**](https://plant.treeware.earth/uptoolkit/upvue) to thank us for our work.
+
+By contributing to the Treeware forest you’ll be creating employment for local families and restoring wildlife habitats.

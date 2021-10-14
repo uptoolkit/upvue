@@ -1,20 +1,11 @@
 <template>
   <UpLayout>
+    <slot name="header"></slot>
     <slot></slot>
+    <slot name="footer"></slot>
   </UpLayout>
 </template>
 
-<script>
+<script setup>
 import UpLayout from "./UpLayout";
-
-export default {
-  components: {
-    UpLayout
-  },
-  setup() {
-    return {
-
-    }
-  },
-}
 </script>

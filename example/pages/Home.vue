@@ -47,7 +47,7 @@
 import {defineComponent} from "vue";
 import UpLayout from "../../src/layouts/UpLayout.vue";
 import PageLayout from "./../layouts/PageLayout.vue";
-import {useUp} from "../../src/core/UpVue";
+import {useUp} from "../../src";
 
 defineComponent({
   UpLayout,

@@ -1,6 +1,6 @@
 import {createApp} from 'vue'
 import App from './App.vue'
-import UpVue from "../src/core/UpVue";
+import {UpVue} from "../src";
 import router from "./routes";
 import store from "./store";
 import 'ant-design-vue/dist/antd.css';
@@ -11,11 +11,11 @@ createApp(App)
      * 1. Import everything in Up to have an access through al your components
      */
     .use(UpVue, {
+        debug: true,
         project : {
             name: 'Up Toolkit Demo',
             logo: {
-                src: '/img/logo.svg',
-                srcset: '/img/logo.svg 640w,/img/logo_with_text.svg 1080w',
+                src: '/img/logo.svg'
             },
             url: '/'
         },

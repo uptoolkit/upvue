@@ -16,7 +16,6 @@ var __spreadValues = (a, b) => {
 };
 import { defineComponent, ref, resolveComponent, openBlock, createBlock, withCtx, renderSlot, reactive } from "vue";
 import Antd, { ConfigProvider, message, notification } from "ant-design-vue";
-export { message, notification } from "ant-design-vue";
 import collect from "collect.js";
 import { axios } from "@bundled-es-modules/axios";
 class I18n {
@@ -206,22 +205,24 @@ const UpLayout = defineComponent({
       api: this.api,
       http: this.http,
       config: this.config,
-      t: i18n.__.bind(i18n),
-      choice: i18n.choice.bind(i18n)
+      i18n: this.i18n,
+      t: this.i18n.__.bind(this.i18n),
+      choice: this.i18n.choice.bind(this.i18n)
     };
   },
   setup() {
     const loading = ref(false);
-    let { config: config2, message: message3, notification: notification3 } = useUp();
+    let { config: config2, message: message2, notification: notification2, api: api2, http: http2, i18n: i18n2 } = useUp();
     let locale = ref(config2.get("locale"));
     return {
       loading,
       locale,
-      api,
-      http,
+      api: api2,
+      http: http2,
       config: config2,
-      message: message3,
-      notification: notification3
+      message: message2,
+      notification: notification2,
+      i18n: i18n2
     };
   }
 });
@@ -561,7 +562,6 @@ let store;
 let form;
 let formApi;
 let useUp;
-useUp = null;
 const UpVue = {
   install: (app, options) => {
     config = collect(options);
@@ -607,23 +607,27 @@ const UpVue = {
     app.provide("UpVue", options);
     app.component("UpLayout", UpLayout$1);
     if (!useUp) {
-      useUp = (app2, options2) => {
-        return {
-          api,
-          http,
-          config,
-          store,
-          form,
-          formApi,
-          message,
-          notification,
-          i18n,
-          __: i18n.__.bind(i18n),
-          t: i18n.__.bind(i18n),
-          choice: i18n.choice.bind(i18n)
-        };
+      const exported = {
+        api,
+        http,
+        config,
+        store,
+        form,
+        formApi,
+        message,
+        notification,
+        i18n,
+        __: i18n.__.bind(i18n),
+        t: i18n.__.bind(i18n),
+        choice: i18n.choice.bind(i18n)
+      };
+      if (config.has("debug")) {
+        console.log("\u2934 useUp() accessible vars", exported);
+      }
+      useUp = () => {
+        return exported;
       };
     }
   }
 };
-export { UpLayout$1 as UpLayout, UpVue, api, config, form, formApi, http, i18n, store, useUp };
+export { UpLayout$1 as UpLayout, UpVue, useUp };

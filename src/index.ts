@@ -1,28 +1,11 @@
-import UpVue, {
+import {
     useUp,
-    api,
-    http,
-    config,
-    message,
-    notification,
-    form,
-    formApi,
-    i18n,
-    store
+    UpVue
 } from './core/UpVue';
 import UpLayout from './layouts/UpLayout.vue';
 
 export {
-    UpVue,
     useUp,
-    api,
-    http,
-    config,
-    message,
-    notification,
-    form,
-    formApi,
-    i18n,
-    store,
+    UpVue,
     UpLayout,
 }
