@@ -41,7 +41,9 @@ export default defineConfig({
         "vuex",
         'ant-design-vue',
         'collect.js',
-        'axios'
+        'axios',
+        "@headlessui/vue",
+        "@heroicons/vue",
       ],
       output: {
         // Provide global variables to use in the UMD build
