@@ -6,7 +6,7 @@ module.exports = {
    */
   title: 'Up Vue',
 
-  base: '/upvue/',
+  base: '/',
   /**
    * Ref：https://v1.vuepress.vuejs.org/config/#description
    */
