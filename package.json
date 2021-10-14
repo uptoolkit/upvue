@@ -11,7 +11,14 @@
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs"
   },
-  "main": "dist/index.js",
+  "main": "dist/index.es.js",
+  "module": "dist/mjs/index.umd.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.es.js",
+      "require": "./dist/index.umd.js"
+    }
+  },
   "typings": "types/index.d.ts",
   "keywords": [
     "vue",
