@@ -9,8 +9,11 @@
     "build": "vite build",
     "serve": "vite preview",
     "docs:dev": "vuepress dev docs",
-    "docs:build": "vuepress build docs"
+    "docs:build": "vuepress build docs",
+    "build:types": "npx -p typescript tsc src/index.ts --declaration --allowJs --emitDeclarationOnly --outDir types"
   },
+  "main": "dist/index.js",
+  "typings": "types/index.d.ts",
   "keywords": [
     "vue",
     "library",
@@ -45,10 +48,11 @@
     "@babel/core": "^7.15.8",
     "@originjs/vite-plugin-commonjs": "^1.0.0",
     "@vitejs/plugin-vue": "^1.9.3",
-    "vite": "^2.6.7",
     "@vitejs/plugin-vue-jsx": "^1.2.0",
     "@vue/compiler-sfc": "^3.0.4",
     "babel-loader": "^8.2.2",
+    "npm-dts": "^1.3.10",
+    "vite": "^2.6.7",
     "vue-loader": "^16.8.1"
   }
 }
