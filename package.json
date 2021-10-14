@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc --noEmit && vite build",
+    "build": "vue-tsc --noEmit && vite build && rm -R ./dist/api && rm -R ./dist/img && rm -R ./dist/favicon.ico",
     "serve": "vite preview",
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs"

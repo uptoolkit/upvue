@@ -67,34 +67,43 @@ export const UpVue = {
 
         config = collect(options);
 
+        // Define overriden method
+        const override = config.get('override') || {};
+
         /**
          * Define the main needed global properties accessible through components with globals
+         *
+         * This might be overwritten using override
          */
-        app.config.globalProperties.$config = collect(options);
-        app.config.globalProperties.$http = http = axios.create();
-        app.config.globalProperties.$api = api = axios.create({
+        app.config.globalProperties.$config = config.get('override.config') || config;
+        app.config.globalProperties.$http = http = config.get('override.http') || axios.create();
+        app.config.globalProperties.$api = api = config.get('override.api') || axios.create({
             baseURL: options.api.url,
         });
-        app.config.globalProperties.$message = message;
-        app.config.globalProperties.$notification = notification;
+        app.config.globalProperties.$message = config.get('override.message') || message;
+        app.config.globalProperties.$notification = config.get('override.notification') || notification;
+
+        // Optionnals packages but loaded by default
 
         // Define form helper and wrapper from the Form Lib
-        form = function (data: object, options: object) {
-            return new Form(data, {
-                ...{
-                    http
-                },
-                ...options
-            });
-        }
+        if (!config.has('exclude.form')) {
+            form = function (data: object, options: object) {
+                return new Form(data, {
+                    ...{
+                        http
+                    },
+                    ...options
+                });
+            }
 
-        formApi = function (data: object, options: object) {
-            return new Form(data, {
-                ...{
-                    http: api
-                },
-                ...options
-            });
+            formApi = function (data: object, options: object) {
+                return new Form(data, {
+                    ...{
+                        http: api
+                    },
+                    ...options
+                });
+            }
         }
 
         /**
@@ -110,19 +119,21 @@ export const UpVue = {
             });
         }
 
-        const translations = options.translations[options.locale];
+        if (!config.has('exclude.i18n')) {
+            const translations = options.translations[options.locale];
 
-        i18n = createI18n(translations, options.locale, {
-            globalName: 'translations', // name of the autoloaded global variable
-            forceDisplayKeys: true, // display the key if the label is not found (else it return an empty string)
-            storeNotFounds: true, // store every key that are not found in a variable called "_notFounds" inside the global
-        });
+            i18n = createI18n(translations, options.locale, {
+                globalName: 'translations', // name of the autoloaded global variable
+                forceDisplayKeys: true, // display the key if the label is not found (else it return an empty string)
+                storeNotFounds: true, // store every key that are not found in a variable called "_notFounds" inside the global
+            });
 
-        app.use(VueI18n, {
-            translations: translations,
-            language: options.locale,
-            options: options.i18n
-        });
+            app.use(VueI18n, {
+                translations: translations,
+                language: options.locale,
+                options: options.i18n
+            });
+        }
 
         if (!config.has('exclude.antd')) {
             app.use(Antd);
@@ -149,11 +160,12 @@ export const UpVue = {
                 i18n,
                 __: i18n.__.bind(i18n),
                 t: i18n.__.bind(i18n),
-                choice: i18n.choice.bind(i18n)
+                choice: i18n.choice.bind(i18n),
+                ...override
             }
 
             if (config.has('debug')) {
-                console.log('⤴ useUp() accessible vars', exported);
+                console.log('⤴ useUp() accessible vars :', exported);
             }
 
             useUp = () => {

@@ -565,23 +565,26 @@ let useUp;
 const UpVue = {
   install: (app, options) => {
     config = collect(options);
-    app.config.globalProperties.$config = collect(options);
-    app.config.globalProperties.$http = http = axios.create();
-    app.config.globalProperties.$api = api = axios.create({
+    const override = config.get("override") || {};
+    app.config.globalProperties.$config = config.get("override.config") || config;
+    app.config.globalProperties.$http = http = config.get("override.http") || axios.create();
+    app.config.globalProperties.$api = api = config.get("override.api") || axios.create({
       baseURL: options.api.url
     });
-    app.config.globalProperties.$message = message;
-    app.config.globalProperties.$notification = notification;
-    form = function(data, options2) {
-      return new Form(data, __spreadValues(__spreadValues({}, {
-        http
-      }), options2));
-    };
-    formApi = function(data, options2) {
-      return new Form(data, __spreadValues(__spreadValues({}, {
-        http: api
-      }), options2));
-    };
+    app.config.globalProperties.$message = config.get("override.message") || message;
+    app.config.globalProperties.$notification = config.get("override.notification") || notification;
+    if (!config.has("exclude.form")) {
+      form = function(data, options2) {
+        return new Form(data, __spreadValues(__spreadValues({}, {
+          http
+        }), options2));
+      };
+      formApi = function(data, options2) {
+        return new Form(data, __spreadValues(__spreadValues({}, {
+          http: api
+        }), options2));
+      };
+    }
     if (typeof options.store !== "undefined" && options.storeMode === "vuex") {
       store = options.store;
     } else {
@@ -590,24 +593,26 @@ const UpVue = {
         menus: null
       });
     }
-    const translations = options.translations[options.locale];
-    i18n = createI18n(translations, options.locale, {
-      globalName: "translations",
-      forceDisplayKeys: true,
-      storeNotFounds: true
-    });
-    app.use(VueI18n, {
-      translations,
-      language: options.locale,
-      options: options.i18n
-    });
+    if (!config.has("exclude.i18n")) {
+      const translations = options.translations[options.locale];
+      i18n = createI18n(translations, options.locale, {
+        globalName: "translations",
+        forceDisplayKeys: true,
+        storeNotFounds: true
+      });
+      app.use(VueI18n, {
+        translations,
+        language: options.locale,
+        options: options.i18n
+      });
+    }
     if (!config.has("exclude.antd")) {
       app.use(Antd);
     }
     app.provide("UpVue", options);
     app.component("UpLayout", UpLayout$1);
     if (!useUp) {
-      const exported = {
+      const exported = __spreadValues({
         api,
         http,
         config,
@@ -620,9 +625,9 @@ const UpVue = {
         __: i18n.__.bind(i18n),
         t: i18n.__.bind(i18n),
         choice: i18n.choice.bind(i18n)
-      };
+      }, override);
       if (config.has("debug")) {
-        console.log("\u2934 useUp() accessible vars", exported);
+        console.log("\u2934 useUp() accessible vars :", exported);
       }
       useUp = () => {
         return exported;
