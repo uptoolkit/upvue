@@ -1,0 +1,50 @@
+{
+  "data" : {
+    "user" : [
+      {
+        "name" : "Dashboard",
+        "href" : "#dashboard",
+        "active" : false
+      },
+      {
+        "element" : "hr"
+      },
+      {
+        "name" : "Project",
+        "href" : "#projects",
+        "active" : false,
+        "children" : [
+          {
+            "name": "Sub item",
+            "href" : "#project/sub",
+            "active" : false
+          }
+        ]
+      }
+    ],
+    "main" : [
+      {
+        "name" : "Dashboard",
+        "href" : "#dashboard",
+        "active" : false
+      },
+      {
+        "name" : "Project",
+        "href" : "#projects",
+        "active" : false,
+        "children" : [
+          {
+            "name": "Sub item",
+            "href" : "#project/sub",
+            "active" : false
+          }
+        ]
+      },
+      {
+        "name" : "Admin example",
+        "href" : "/admin",
+        "active" : false
+      }
+    ]
+  }
+}
