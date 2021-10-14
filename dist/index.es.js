@@ -16,6 +16,7 @@ var __spreadValues = (a, b) => {
 };
 import { defineComponent, ref, resolveComponent, openBlock, createBlock, withCtx, renderSlot, reactive } from "vue";
 import Antd, { ConfigProvider, message, notification } from "ant-design-vue";
+export { message, notification } from "ant-design-vue";
 import collect from "collect.js";
 import { axios } from "@bundled-es-modules/axios";
 class I18n {
@@ -211,7 +212,7 @@ const UpLayout = defineComponent({
   },
   setup() {
     const loading = ref(false);
-    let { config: config2, message: message2, notification: notification2 } = useUp();
+    let { config: config2, message: message3, notification: notification3 } = useUp();
     let locale = ref(config2.get("locale"));
     return {
       loading,
@@ -219,8 +220,8 @@ const UpLayout = defineComponent({
       api,
       http,
       config: config2,
-      message: message2,
-      notification: notification2
+      message: message3,
+      notification: notification3
     };
   }
 });
@@ -559,7 +560,8 @@ let i18n;
 let store;
 let form;
 let formApi;
-let useUp = null;
+let useUp;
+useUp = null;
 const UpVue = {
   install: (app, options) => {
     config = collect(options);
@@ -585,9 +587,7 @@ const UpVue = {
     } else {
       store = reactive({
         user: null,
-        menus: null,
-        dispatch: (ref2) => {
-        }
+        menus: null
       });
     }
     const translations = options.translations[options.locale];
@@ -626,4 +626,4 @@ const UpVue = {
     }
   }
 };
-export { UpLayout$1 as UpLayout, UpVue as default };
+export { UpLayout$1 as UpLayout, UpVue, api, config, form, formApi, http, i18n, store, useUp };

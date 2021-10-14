@@ -3,9 +3,12 @@ import Antd from 'ant-design-vue';
 import {message, notification} from 'ant-design-vue';
 import {VueI18n, useI18n, createI18n} from '@cherrypulp/i18n';
 import collect from 'collect.js';
+// @ts-ignore
 import {axios} from '@bundled-es-modules/axios';
 import UpLayout from '../layouts/UpLayout.vue';
+// @ts-ignore
 import Form from '../form';
+import {AxiosInstance} from "axios";
 
 /**
  * Define the vue options interface
@@ -39,18 +42,19 @@ declare global {
     }
 }
 
-let api;
-let http;
-let config;
-let i18n;
-let store;
-let form;
-let formApi;
+let api:AxiosInstance;
+let http:AxiosInstance;
+let config:'collect.js';
+let i18n:object;
+let store:object;
+let form:object;
+let formApi:object;
 
 /**
  * Access to the instance a a singleton
  */
-let useUp = null;
+let useUp:any;
+useUp = null;
 
 const UpVue = {
 
@@ -71,7 +75,7 @@ const UpVue = {
         app.config.globalProperties.$notification = notification;
 
         // Define form helper and wrapper
-        form = function (data, options) {
+        form = function (data:object, options:object) {
             return new Form(data, {
                 ...{
                     http
@@ -80,7 +84,7 @@ const UpVue = {
             });
         }
 
-        formApi = function (data, options) {
+        formApi = function (data:object, options:object) {
             return new Form(data, {
                 ...{
                     http: api
@@ -98,10 +102,7 @@ const UpVue = {
             // Set a minimal reactive store
             store = reactive({
                 user: null,
-                menus: null,
-                dispatch: (ref) => {
-
-                }
+                menus: null
             });
         }
 
