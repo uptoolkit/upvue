@@ -4,12 +4,7 @@
 set -e
 
 # Push to repo
-npm run build
-
-# Remove unecessary build
-rm -R dist/api
-rm -R dist/img
-rm dist/favicon.ico
+vite build
 
 # Publish to npm
 npm version patch

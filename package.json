@@ -6,11 +6,11 @@
   "license": "MIT",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vue-tsc --noEmit && vite build && rm -R dist/api && rm -R dist/img",
     "serve": "vite preview",
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs",
-    "build:types": "npx -p typescript tsc src/index.ts --declaration --allowJs --emitDeclarationOnly --outDir types"
+    "publish": "bash publish.sh"
   },
   "main": "dist/index.js",
   "typings": "types/index.d.ts",
@@ -37,7 +37,6 @@
     "@tailwindcss/forms": "^0.3.4",
     "form-backend-validation": "^2.4.0",
     "lodash": "^4.17.21",
-    "moment": "^2.29.1",
     "tailwindcss": "^2.2.16",
     "vue": "^3.1.5",
     "vue-router": "4",
@@ -52,7 +51,9 @@
     "@vue/compiler-sfc": "^3.0.4",
     "babel-loader": "^8.2.2",
     "npm-dts": "^1.3.10",
-    "vite": "^2.6.7",
-    "vue-loader": "^16.8.1"
+    "vite": "^2.6.4",
+    "vue-loader": "^16.8.1",
+    "typescript": "^4.4.3",
+    "vue-tsc": "^0.3.0"
   }
 }
