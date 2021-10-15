@@ -157,7 +157,7 @@ This is mainly a design pattern UP to you :-). With inject you can abstract the 
 
 You can get full documentation or check our complete example :
 
-- [https://vue.uptoolkit.com](https://vue.uptoolkit.com)
+- [https://upvue.uptoolkit.com](https://upvue.uptoolkit.com)
 - [https://github.com/uptoolkit/upvue/tree/main/example](https://github.com/uptoolkit/upvue/tree/main/example)
 
 ### Discover the whole ecosystem of Up Toolkit
