@@ -1,7 +1,7 @@
 {
   "name": "up-vue",
   "description": "Vue toolkit of plugins to bootstrap your VueApp with everything you need",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "author": "Daniel Sum",
   "email": "daniel@cherrypulp.com",
   "license": "MIT",
