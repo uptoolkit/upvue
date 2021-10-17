@@ -1,6 +1,6 @@
 # Up Vue
 
-[![Latest Version on NPM](https://img.shields.io/npm/v/upvue.svg?style=flat-square)](https://npmjs.com/package/js-form-helper)
+[![Latest Version on NPM](https://img.shields.io/npm/v/up-vue.svg?style=flat-square)](https://npmjs.com/package/js-form-helper)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
 
 ## Why ?
@@ -39,14 +39,14 @@ override it when you will feel the need. Thanks to our "[convention over configu
 In your Vue project just make :
 
 ````bash
-yarn add upvue #or npm i upvue --save
+yarn add up-vue #or npm i up-vue --save
 ````
 
 Then in your main app, do :
 
 ````javascript
 import {createApp} from 'vue'
-import {UpVue} from "upvue"
+import {UpVue} from "up-vue"
 import router from "./routes"
 import store from "./store"
 import App from './App.vue'
@@ -101,7 +101,7 @@ In your component you can do :
 
 `````javascript
 <script setup>
-import {useUp} from 'upvue'
+import {useUp} from 'up-vue'
 const {
   api,
   http,
@@ -129,7 +129,7 @@ In your main Layout App.vue, you can do :
 
 <script>
 import {inject} from "vue";
-import {UpLayout} from "upvue";
+import {UpLayout} from "up-vue";
 
 export default {
   name: 'App',
@@ -160,8 +160,8 @@ This is mainly a design pattern UP to you :-). With inject you can abstract the 
 
 You can get full documentation or check our complete example :
 
-- [https://vue.uptoolkit.com](https://vue.uptoolkit.com)
-- [https://github.com/uptoolkit/upvue/tree/main/example](https://github.com/uptoolkit/upvue/tree/main/example)
+- [https://upvue.uptoolkit.com](https://upvue.uptoolkit.com)
+- [https://github.com/uptoolkit/up-vue/tree/main/example](https://github.com/uptoolkit/up-vue/tree/main/example)
 
 ### Discover the whole ecosystem of Up Toolkit
 
@@ -175,7 +175,7 @@ For more information go to :
 
 Everyone can contribute and propose any components or post an issues, make a suggestion :
 
-- [https://github.com/uptoolkit/upvue/issues](https://github.com/uptoolkit/upvue/issues)
+- [https://github.com/uptoolkit/up-vue/issues](https://github.com/uptoolkit/up-vue/issues)
 - [You can also share your package in Awesome Up](https://github.com/uptoolkit)
 
 # To dos : 
@@ -201,6 +201,6 @@ MIT
 
 This package is [Treeware](https://treeware.earth). 
 
-If you use it in production, then we ask that you [**buy the world a tree**](https://plant.treeware.earth/uptoolkit/upvue) to thank us for our work.
+If you use it in production, then we ask that you [**buy the world a tree**](https://plant.treeware.earth/uptoolkit/up-vue) to thank us for our work.
 
 By contributing to the Treeware forest you’ll be creating employment for local families and restoring wildlife habitats.

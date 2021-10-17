@@ -13,7 +13,7 @@ sidebar: auto
 
 😩 : "Hell yeah, you're right. Javascript fatigue..."
 
-🥸 : Up Vue help you to have everything you need to start for creating a webapp as simple as that :
+🥸 : Up Vue help you to have everything you need to start for creating a webapp as simple as that:
 
 - [Vue 3 for the Javascript framework](https://vuejs.org/)
 - [Tailwind as a Front-End Utilities](https://tailwindcss.com/)
