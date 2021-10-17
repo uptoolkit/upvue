@@ -16,7 +16,6 @@ var __spreadValues = (a, b) => {
 };
 import { defineComponent, ref, resolveComponent, openBlock, createBlock, withCtx, renderSlot, reactive } from "vue";
 import Antd, { ConfigProvider, message, notification } from "ant-design-vue";
-import collect from "collect.js";
 import { axios } from "@bundled-es-modules/axios";
 class I18n {
   __(key, data = null, locale = null) {
@@ -189,6 +188,64 @@ var VueI18n = {
     }
   }
 };
+function getDefaultExportFromCjs(x) {
+  return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, "default") ? x["default"] : x;
+}
+var jsConfigHelper = {};
+(function(exports) {
+  exports.__esModule = true;
+  var Config2 = function() {
+    function Config3(options) {
+      this.options = options;
+    }
+    Config3.prototype.get = function(key, def) {
+      var keys = key.split(".");
+      var source = this.options;
+      keys.forEach(function(k) {
+        if (source) {
+          source = source[k];
+        }
+      });
+      if (!source && def) {
+        if (typeof def === "function") {
+          source = def();
+        } else {
+          source = def;
+        }
+      }
+      return source;
+    };
+    Config3.prototype.has = function(key) {
+      var keys = key.split(".");
+      var source = this.options;
+      keys.forEach(function(k) {
+        if (source) {
+          source = source[k];
+        }
+      });
+      return !!source;
+    };
+    Config3.prototype.set = function(key, value) {
+      var keys = key.split(".");
+      var source = this.options;
+      keys.forEach(function(k) {
+        if (source) {
+          source = source[k];
+        }
+      });
+      if (source) {
+        source = value;
+      }
+      return source;
+    };
+    Config3.prototype.all = function() {
+      return this.options;
+    };
+    return Config3;
+  }();
+  exports["default"] = Config2;
+})(jsConfigHelper);
+var Config = /* @__PURE__ */ getDefaultExportFromCjs(jsConfigHelper);
 var _export_sfc = (sfc, props) => {
   for (const [key, val] of props) {
     sfc[key] = val;
@@ -1786,7 +1843,7 @@ let formApi;
 let useUp;
 const UpVue = {
   install: (app, options) => {
-    config = collect(options);
+    config = new Config(options);
     const override = config.get("override") || {};
     app.config.globalProperties.$config = config.get("override.config") || config;
     app.config.globalProperties.$http = http = config.get("override.http") || axios.create();
