@@ -3,7 +3,7 @@ import type {App} from 'vue';
 import Antd from 'ant-design-vue';
 import {message, notification} from 'ant-design-vue';
 import {VueI18n, createI18n} from '@cherrypulp/i18n';
-import collect, {Collection} from 'collect.js';
+import Config from 'js-config-helper';
 // @ts-ignore
 import {axios} from '@bundled-es-modules/axios';
 import UpLayout from '../layouts/UpLayout.vue';
@@ -65,7 +65,7 @@ export const UpVue = {
 
     install: (app: App, options: VueOptions) => {
 
-        config = collect(options);
+        config = new Config(options);
 
         // Define overriden method
         const override = config.get('override') || {};
