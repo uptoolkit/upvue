@@ -102,8 +102,8 @@ In your component you can do :
 
 `````javascript
 <script setup>
-import {useUp} from 'upvue'
-const {
+  import {useUp} from 'upvue'
+  const {
   api,
   http,
   config,
@@ -129,27 +129,27 @@ In your main Layout App.vue, you can do :
 </template>
 
 <script>
-import {inject} from "vue";
-import {UpLayout} from "upvue";
+  import {inject} from "vue";
+  import {UpLayout} from "upvue";
 
-export default {
+  export default {
   name: 'App',
   components: {
-      UpLayout
-  },
+  UpLayout
+},
   setup(){
-      const inject('config'); // collectjs helper exemple config.get('project.name')
-      const inject('http'); // axios ajax helper
-      const inject('api');  // axios ajax helper with your baseUrl Api as base
-      const inject('i18n'); // i18n helper
-      const inject('store'); // store helper
-      const inject('form');  // form helper 
-      const inject('formApi'); // form helper with your api endpoint as base
-      const inject('message'); // message helper with your api endpoint as base
-      const inject('notification'); // notification helper with your api endpoint as base
-      const inject('t'); // i18n helper similar to __ from laravel
-      const inject('choice'); // i18n helper similar to __ from laravel
-    }
+  const inject('config'); // collectjs helper exemple config.get('project.name')
+  const inject('http'); // axios ajax helper
+  const inject('api');  // axios ajax helper with your baseUrl Api as base
+  const inject('i18n'); // i18n helper
+  const inject('store'); // store helper
+  const inject('form');  // form helper 
+  const inject('formApi'); // form helper with your api endpoint as base
+  const inject('message'); // message helper with your api endpoint as base
+  const inject('notification'); // notification helper with your api endpoint as base
+  const inject('t'); // i18n helper similar to __ from laravel
+  const inject('choice'); // i18n helper similar to __ from laravel
+}
 }
 </script>
 `````
