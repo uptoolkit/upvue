@@ -134,17 +134,17 @@ export default {
       UpLayout
   },
   setup(){
-      const inject('config'); // collectjs helper exemple config.get('project.name')
-      const inject('http'); // axios ajax helper
+      const inject('config'); // collectjs helper exemple config.get('project.name') @see https://collect.js.org/
+      const inject('http'); // axios ajax helper @see https://axios-http.com/
       const inject('api');  // axios ajax helper with your baseUrl Api as base
-      const inject('i18n'); // i18n helper
-      const inject('store'); // store helper
-      const inject('form');  // form helper 
+      const inject('i18n'); // i18n helper @see https://www.npmjs.com/package/@cherrypulp/i18n
+      const inject('store'); // store helper @see https://vuex.vuejs.org/
+      const inject('form');  // form helper @see https://www.npmjs.com/package/js-form-helper
       const inject('formApi'); // form helper with your api endpoint as base
-      const inject('message'); // message helper with your api endpoint as base
-      const inject('notification'); // notification helper with your api endpoint as base
-      const inject('t'); // i18n helper similar to __ from laravel
-      const inject('choice'); // i18n helper similar to __ from laravel
+      const inject('message'); // message helper with your api endpoint as base @see https://2x.antdv.com/components/message
+      const inject('notification'); // notification helper with your api endpoint as base @https://2x.antdv.com/components/notification
+      const inject('t'); // i18n helper similar to __ from laravel = i18n.__
+      const inject('choice'); // i18n helper similar to __ from laravel @see https://www.npmjs.com/package/@cherrypulp/i18n
     }
 }
 </script>
@@ -157,7 +157,7 @@ This is mainly a design pattern UP to you :-). With inject you can abstract the 
 
 You can get full documentation or check our complete example :
 
-- [https://vue.uptoolkit.com](https://vue.uptoolkit.com)
+- [https://upvue.uptoolkit.com](https://vue.uptoolkit.com)
 - [https://github.com/uptoolkit/upvue/tree/main/example](https://github.com/uptoolkit/upvue/tree/main/example)
 
 ### Discover the whole ecosystem of Up Toolkit
@@ -195,6 +195,8 @@ Support us on Open Collective or buy us a Tree :
 # License
 
 MIT
+
+# Treeware license
 
 This package is [Treeware](https://treeware.earth). 
 

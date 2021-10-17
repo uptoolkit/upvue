@@ -8,7 +8,7 @@ import collect, {Collection} from 'collect.js';
 import {axios} from '@bundled-es-modules/axios';
 import UpLayout from '../layouts/UpLayout.vue';
 // @ts-ignore
-import Form from '../form';
+import {Form} from 'js-form-helper';
 import {Axios, AxiosInstance} from "axios";
 import I18n from "@cherrypulp/i18n/types/I18n";
 import {Store} from "vuex";

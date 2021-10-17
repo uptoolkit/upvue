@@ -11,7 +11,7 @@ export default defineConfig({
     lib:
         {
           entry: path.resolve(__dirname, 'src/index.ts'),
-          name: 'upvue',
+          name: 'UpVue',
           fileName: (format) => `index.${format}.js`
         }
     ,
@@ -47,6 +47,9 @@ export default defineConfig({
         // for externalized deps
         globals: {
           vue: 'Vue',
+          "@bundled-es-modules/axios": "axios",
+          "ant-design-vue": "Antd",
+          "collect.js": "collect",
           axios: 'axios'
         }
       }

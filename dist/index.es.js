@@ -237,9 +237,31 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   });
 }
 var UpLayout$1 = /* @__PURE__ */ _export_sfc(_sfc_main, [["render", _sfc_render]]);
-class Errors {
-  constructor(errors = {}) {
-    this.record(errors);
+var __defProp2 = Object.defineProperty;
+var __defNormalProp2 = (obj, key, value) => key in obj ? __defProp2(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __publicField = (obj, key, value) => {
+  __defNormalProp2(obj, typeof key !== "symbol" ? key + "" : key, value);
+  return value;
+};
+function _mergeNamespaces(n, m) {
+  m.forEach(function(e) {
+    Object.keys(e).forEach(function(k) {
+      if (k !== "default" && !(k in n)) {
+        var d = Object.getOwnPropertyDescriptor(e, k);
+        Object.defineProperty(n, k, d.get ? d : {
+          enumerable: true,
+          get: function() {
+            return e[k];
+          }
+        });
+      }
+    });
+  });
+  return Object.freeze(n);
+}
+class Errors$2 {
+  constructor(errors2 = {}) {
+    this.record(errors2);
   }
   all() {
     return this.errors;
@@ -247,8 +269,8 @@ class Errors {
   has(field) {
     let hasError = this.errors.hasOwnProperty(field);
     if (!hasError) {
-      const errors = Object.keys(this.errors).filter((e) => e.startsWith(`${field}.`) || e.startsWith(`${field}[`));
-      hasError = errors.length > 0;
+      const errors2 = Object.keys(this.errors).filter((e) => e.startsWith(`${field}.`) || e.startsWith(`${field}[`));
+      hasError = errors2.length > 0;
     }
     return hasError;
   }
@@ -262,21 +284,21 @@ class Errors {
     if (keys.length === 0) {
       return Object.keys(this.errors).length > 0;
     }
-    let errors = {};
-    keys.forEach((key) => errors[key] = this.get(key));
-    return errors;
+    let errors2 = {};
+    keys.forEach((key) => errors2[key] = this.get(key));
+    return errors2;
   }
-  record(errors = {}) {
-    this.errors = errors;
+  record(errors2 = {}) {
+    this.errors = errors2;
   }
   clear(field) {
     if (!field) {
       this.errors = {};
       return;
     }
-    let errors = Object.assign({}, this.errors);
-    Object.keys(errors).filter((e) => e === field || e.startsWith(`${field}.`) || e.startsWith(`${field}[`)).forEach((e) => delete errors[e]);
-    this.errors = errors;
+    let errors2 = Object.assign({}, this.errors);
+    Object.keys(errors2).filter((e) => e === field || e.startsWith(`${field}.`) || e.startsWith(`${field}[`)).forEach((e) => delete errors2[e]);
+    this.errors = errors2;
   }
 }
 function isArray(object) {
@@ -381,8 +403,1196 @@ function guardAgainstReservedFieldName(fieldName) {
     throw new Error(`Field name ${fieldName} isn't allowed to be used in a Form or Errors instance.`);
   }
 }
+function commonjsRequire(path) {
+  throw new Error('Could not dynamically require "' + path + '". Please configure the dynamicRequireTargets or/and ignoreDynamicRequires option of @rollup/plugin-commonjs appropriately for this require call to work.');
+}
+function leapYear(year) {
+  return year % 4 === 0 && year % 100 !== 0 || year % 400 === 0;
+}
+function checkFalsePositiveDates(dateString = "") {
+  if (dateString.length === 10) {
+    let normalizedDate = dateString.replace(".", "-").replace("/", "-");
+    let parts = normalizedDate.split("-");
+    if (parts.length === 3) {
+      if (parts[0].length === 4) {
+        let y = parseInt(parts[0]);
+        let m = parseInt(parts[1]);
+        let d = parseInt(parts[2]);
+        if (m === 2) {
+          if (leapYear(y)) {
+            if (d > 29) {
+              return false;
+            }
+          } else {
+            if (d > 28) {
+              return false;
+            }
+          }
+        }
+        if (m === 4 || m === 6 || m === 9 || m === 11) {
+          if (d > 30) {
+            return false;
+          }
+        }
+      }
+    }
+    return true;
+  }
+  return true;
+}
+function isValidDate(dateString) {
+  let testDate;
+  if (typeof dateString === "number") {
+    testDate = new Date(dateString);
+    if (typeof testDate === "object") {
+      return true;
+    }
+  }
+  testDate = new Date(dateString);
+  if (typeof testDate === "object") {
+    if (testDate.toString() === "Invalid Date") {
+      return false;
+    }
+    if (!checkFalsePositiveDates(dateString)) {
+      return false;
+    }
+    return true;
+  }
+  var regex_date = /^\d{4}\-\d{1,2}\-\d{1,2}$/;
+  if (!regex_date.test(dateString)) {
+    return false;
+  }
+  var parts = dateString.split("-");
+  var day = parseInt(parts[2], 10);
+  var month = parseInt(parts[1], 10);
+  var year = parseInt(parts[0], 10);
+  if (year < 1e3 || year > 3e3 || month == 0 || month > 12) {
+    return false;
+  }
+  var monthLength = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+  if (year % 400 == 0 || year % 100 != 0 && year % 4 == 0) {
+    monthLength[1] = 29;
+  }
+  return day > 0 && day <= monthLength[month - 1];
+}
+var rules = {
+  required: function(val) {
+    var str;
+    if (val === void 0 || val === null) {
+      return false;
+    }
+    str = String(val).replace(/\s/g, "");
+    return str.length > 0 ? true : false;
+  },
+  required_if: function(val, req, attribute) {
+    req = this.getParameters();
+    if (this.validator._objectPath(this.validator.input, req[0]) === req[1]) {
+      return this.validator.getRule("required").validate(val);
+    }
+    return true;
+  },
+  required_unless: function(val, req, attribute) {
+    req = this.getParameters();
+    if (this.validator._objectPath(this.validator.input, req[0]) !== req[1]) {
+      return this.validator.getRule("required").validate(val);
+    }
+    return true;
+  },
+  required_with: function(val, req, attribute) {
+    if (this.validator._objectPath(this.validator.input, req)) {
+      return this.validator.getRule("required").validate(val);
+    }
+    return true;
+  },
+  required_with_all: function(val, req, attribute) {
+    req = this.getParameters();
+    for (var i = 0; i < req.length; i++) {
+      if (!this.validator._objectPath(this.validator.input, req[i])) {
+        return true;
+      }
+    }
+    return this.validator.getRule("required").validate(val);
+  },
+  required_without: function(val, req, attribute) {
+    if (this.validator._objectPath(this.validator.input, req)) {
+      return true;
+    }
+    return this.validator.getRule("required").validate(val);
+  },
+  required_without_all: function(val, req, attribute) {
+    req = this.getParameters();
+    for (var i = 0; i < req.length; i++) {
+      if (this.validator._objectPath(this.validator.input, req[i])) {
+        return true;
+      }
+    }
+    return this.validator.getRule("required").validate(val);
+  },
+  boolean: function(val) {
+    return val === true || val === false || val === 0 || val === 1 || val === "0" || val === "1" || val === "true" || val === "false";
+  },
+  size: function(val, req, attribute) {
+    if (val) {
+      req = parseFloat(req);
+      var size = this.getSize();
+      return size === req;
+    }
+    return true;
+  },
+  string: function(val, req, attribute) {
+    return typeof val === "string";
+  },
+  sometimes: function(val) {
+    return true;
+  },
+  min: function(val, req, attribute) {
+    var size = this.getSize();
+    return size >= req;
+  },
+  max: function(val, req, attribute) {
+    var size = this.getSize();
+    return size <= req;
+  },
+  between: function(val, req, attribute) {
+    req = this.getParameters();
+    var size = this.getSize();
+    var min = parseFloat(req[0], 10);
+    var max = parseFloat(req[1], 10);
+    return size >= min && size <= max;
+  },
+  email: function(val) {
+    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (!re.test(val)) {
+      re = /^((?:[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]|[^\u0000-\u007F])+@(?:[a-zA-Z0-9]|[^\u0000-\u007F])(?:(?:[a-zA-Z0-9-]|[^\u0000-\u007F]){0,61}(?:[a-zA-Z0-9]|[^\u0000-\u007F]))?(?:\.(?:[a-zA-Z0-9]|[^\u0000-\u007F])(?:(?:[a-zA-Z0-9-]|[^\u0000-\u007F]){0,61}(?:[a-zA-Z0-9]|[^\u0000-\u007F]))?)+)*$/;
+    }
+    return re.test(val);
+  },
+  numeric: function(val) {
+    var num;
+    num = Number(val);
+    if (typeof num === "number" && !isNaN(num) && typeof val !== "boolean") {
+      return true;
+    } else {
+      return false;
+    }
+  },
+  array: function(val) {
+    return val instanceof Array;
+  },
+  url: function(url) {
+    return /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-z]{2,63}\b([-a-zA-Z0-9@:%_\+.~#?&/=]*)/i.test(url);
+  },
+  alpha: function(val) {
+    return /^[a-zA-Z]+$/.test(val);
+  },
+  alpha_dash: function(val) {
+    return /^[a-zA-Z0-9_\-]+$/.test(val);
+  },
+  alpha_num: function(val) {
+    return /^[a-zA-Z0-9]+$/.test(val);
+  },
+  same: function(val, req) {
+    var val1 = this.validator._flattenObject(this.validator.input)[req];
+    var val2 = val;
+    if (val1 === val2) {
+      return true;
+    }
+    return false;
+  },
+  different: function(val, req) {
+    var val1 = this.validator._flattenObject(this.validator.input)[req];
+    var val2 = val;
+    if (val1 !== val2) {
+      return true;
+    }
+    return false;
+  },
+  in: function(val, req) {
+    var list, i;
+    if (val) {
+      list = this.getParameters();
+    }
+    if (val && !(val instanceof Array)) {
+      var localValue = val;
+      for (i = 0; i < list.length; i++) {
+        if (typeof list[i] === "string") {
+          localValue = String(val);
+        }
+        if (localValue === list[i]) {
+          return true;
+        }
+      }
+      return false;
+    }
+    if (val && val instanceof Array) {
+      for (i = 0; i < val.length; i++) {
+        if (list.indexOf(val[i]) < 0) {
+          return false;
+        }
+      }
+    }
+    return true;
+  },
+  not_in: function(val, req) {
+    var list = this.getParameters();
+    var len = list.length;
+    var returnVal = true;
+    for (var i = 0; i < len; i++) {
+      var localValue = val;
+      if (typeof list[i] === "string") {
+        localValue = String(val);
+      }
+      if (localValue === list[i]) {
+        returnVal = false;
+        break;
+      }
+    }
+    return returnVal;
+  },
+  accepted: function(val) {
+    if (val === "on" || val === "yes" || val === 1 || val === "1" || val === true) {
+      return true;
+    }
+    return false;
+  },
+  confirmed: function(val, req, key) {
+    var confirmedKey = key + "_confirmation";
+    if (this.validator.input[confirmedKey] === val) {
+      return true;
+    }
+    return false;
+  },
+  integer: function(val) {
+    return String(parseInt(val, 10)) === String(val);
+  },
+  digits: function(val, req) {
+    var numericRule = this.validator.getRule("numeric");
+    if (numericRule.validate(val) && String(val.trim()).length === parseInt(req)) {
+      return true;
+    }
+    return false;
+  },
+  digits_between: function(val) {
+    var numericRule = this.validator.getRule("numeric");
+    var req = this.getParameters();
+    var valueDigitsCount = String(val).length;
+    var min = parseFloat(req[0], 10);
+    var max = parseFloat(req[1], 10);
+    if (numericRule.validate(val) && valueDigitsCount >= min && valueDigitsCount <= max) {
+      return true;
+    }
+    return false;
+  },
+  regex: function(val, req) {
+    var mod = /[g|i|m]{1,3}$/;
+    var flag = req.match(mod);
+    flag = flag ? flag[0] : "";
+    req = req.replace(mod, "").slice(1, -1);
+    req = new RegExp(req, flag);
+    return !!req.test(val);
+  },
+  date: function(val, format) {
+    return isValidDate(val);
+  },
+  present: function(val) {
+    return typeof val !== "undefined";
+  },
+  after: function(val, req) {
+    var val1 = this.validator.input[req];
+    var val2 = val;
+    if (!isValidDate(val1)) {
+      return false;
+    }
+    if (!isValidDate(val2)) {
+      return false;
+    }
+    if (new Date(val1).getTime() < new Date(val2).getTime()) {
+      return true;
+    }
+    return false;
+  },
+  after_or_equal: function(val, req) {
+    var val1 = this.validator.input[req];
+    var val2 = val;
+    if (!isValidDate(val1)) {
+      return false;
+    }
+    if (!isValidDate(val2)) {
+      return false;
+    }
+    if (new Date(val1).getTime() <= new Date(val2).getTime()) {
+      return true;
+    }
+    return false;
+  },
+  before: function(val, req) {
+    var val1 = this.validator.input[req];
+    var val2 = val;
+    if (!isValidDate(val1)) {
+      return false;
+    }
+    if (!isValidDate(val2)) {
+      return false;
+    }
+    if (new Date(val1).getTime() > new Date(val2).getTime()) {
+      return true;
+    }
+    return false;
+  },
+  before_or_equal: function(val, req) {
+    var val1 = this.validator.input[req];
+    var val2 = val;
+    if (!isValidDate(val1)) {
+      return false;
+    }
+    if (!isValidDate(val2)) {
+      return false;
+    }
+    if (new Date(val1).getTime() >= new Date(val2).getTime()) {
+      return true;
+    }
+    return false;
+  },
+  hex: function(val) {
+    return /^[0-9a-f]+$/i.test(val);
+  },
+  ipv4: function(val, req, attribute) {
+    if (typeof val != "string")
+      return false;
+    var er = /^[0-9]+$/;
+    octets = val.split(".");
+    if (octets.length != 4)
+      return false;
+    for (let i = 0; i < octets.length; i++) {
+      const element = octets[i];
+      if (!er.test(element))
+        return false;
+      var octetValue = parseInt(element);
+      if (octetValue >= 256)
+        return false;
+    }
+    return true;
+  },
+  ipv6: function(val, req, attribute) {
+    if (typeof val != "string")
+      return false;
+    var er = /^[0-9a-f]+$/;
+    hextets = val.split(":");
+    colons = val.match(/::/);
+    if (colons != null && val.match(/::/g).length > 1)
+      return false;
+    if (val[0] == ":" && (colons == null || colons != null && colons.index != 0))
+      return false;
+    if (val[val.length - 1] == ":" && (colons == null || colons != null && colons.index != val.length - 2))
+      return false;
+    if (3 > hextets.length)
+      return false;
+    var isEdgeCase = hextets.length == 9 && colons != null && (colons.index == 0 || colons.index == val.length - 2);
+    if (hextets.length > 8 && !isEdgeCase)
+      return false;
+    if (hextets.length != 8 && colons == null)
+      return false;
+    for (let i = 0; i < hextets.length; i++) {
+      const element = hextets[i];
+      if (element.length == 0)
+        continue;
+      if (!er.test(element))
+        return false;
+      if (element.length > 4)
+        return false;
+    }
+    return true;
+  },
+  ip: function(val, req, attribute) {
+    return rules["ipv4"](val, req, attribute) || rules["ipv6"](val, req, attribute);
+  }
+};
+var missedRuleValidator = function() {
+  throw new Error("Validator `" + this.name + "` is not defined!");
+};
+var missedRuleMessage;
+function Rule(name, fn, async2) {
+  this.name = name;
+  this.fn = fn;
+  this.passes = null;
+  this._customMessage = void 0;
+  this.async = async2;
+}
+Rule.prototype = {
+  validate: function(inputValue, ruleValue, attribute, callback) {
+    var _this = this;
+    this._setValidatingData(attribute, inputValue, ruleValue);
+    if (typeof callback === "function") {
+      this.callback = callback;
+      var handleResponse = function(passes, message2) {
+        _this.response(passes, message2);
+      };
+      if (this.async) {
+        return this._apply(inputValue, ruleValue, attribute, handleResponse);
+      } else {
+        return handleResponse(this._apply(inputValue, ruleValue, attribute));
+      }
+    }
+    return this._apply(inputValue, ruleValue, attribute);
+  },
+  _apply: function(inputValue, ruleValue, attribute, callback) {
+    var fn = this.isMissed() ? missedRuleValidator : this.fn;
+    return fn.apply(this, [inputValue, ruleValue, attribute, callback]);
+  },
+  _setValidatingData: function(attribute, inputValue, ruleValue) {
+    this.attribute = attribute;
+    this.inputValue = inputValue;
+    this.ruleValue = ruleValue;
+  },
+  getParameters: function() {
+    var value = [];
+    if (typeof this.ruleValue === "string") {
+      value = this.ruleValue.split(",");
+    }
+    if (typeof this.ruleValue === "number") {
+      value.push(this.ruleValue);
+    }
+    if (this.ruleValue instanceof Array) {
+      value = this.ruleValue;
+    }
+    return value;
+  },
+  getSize: function() {
+    var value = this.inputValue;
+    if (value instanceof Array) {
+      return value.length;
+    }
+    if (typeof value === "number") {
+      return value;
+    }
+    if (this.validator._hasNumericRule(this.attribute)) {
+      return parseFloat(value, 10);
+    }
+    return value.length;
+  },
+  _getValueType: function() {
+    if (typeof this.inputValue === "number" || this.validator._hasNumericRule(this.attribute)) {
+      return "numeric";
+    }
+    return "string";
+  },
+  response: function(passes, message2) {
+    this.passes = passes === void 0 || passes === true;
+    this._customMessage = message2;
+    this.callback(this.passes, message2);
+  },
+  setValidator: function(validator2) {
+    this.validator = validator2;
+  },
+  isMissed: function() {
+    return typeof this.fn !== "function";
+  },
+  get customMessage() {
+    return this.isMissed() ? missedRuleMessage : this._customMessage;
+  }
+};
+var manager = {
+  asyncRules: [],
+  implicitRules: [
+    "required",
+    "required_if",
+    "required_unless",
+    "required_with",
+    "required_with_all",
+    "required_without",
+    "required_without_all",
+    "accepted",
+    "present"
+  ],
+  make: function(name, validator2) {
+    var async2 = this.isAsync(name);
+    var rule = new Rule(name, rules[name], async2);
+    rule.setValidator(validator2);
+    return rule;
+  },
+  isAsync: function(name) {
+    for (var i = 0, len = this.asyncRules.length; i < len; i++) {
+      if (this.asyncRules[i] === name) {
+        return true;
+      }
+    }
+    return false;
+  },
+  isImplicit: function(name) {
+    return this.implicitRules.indexOf(name) > -1;
+  },
+  register: function(name, fn) {
+    rules[name] = fn;
+  },
+  registerImplicit: function(name, fn) {
+    this.register(name, fn);
+    this.implicitRules.push(name);
+  },
+  registerAsync: function(name, fn) {
+    this.register(name, fn);
+    this.asyncRules.push(name);
+  },
+  registerAsyncImplicit: function(name, fn) {
+    this.registerImplicit(name, fn);
+    this.asyncRules.push(name);
+  },
+  registerMissedRuleValidator: function(fn, message2) {
+    missedRuleValidator = fn;
+    missedRuleMessage = message2;
+  }
+};
+var rules_1 = manager;
+var replacements = {
+  between: function(template, rule) {
+    var parameters = rule.getParameters();
+    return this._replacePlaceholders(rule, template, {
+      min: parameters[0],
+      max: parameters[1]
+    });
+  },
+  digits_between: function(template, rule) {
+    var parameters = rule.getParameters();
+    return this._replacePlaceholders(rule, template, {
+      min: parameters[0],
+      max: parameters[1]
+    });
+  },
+  required_if: function(template, rule) {
+    var parameters = rule.getParameters();
+    return this._replacePlaceholders(rule, template, {
+      other: this._getAttributeName(parameters[0]),
+      value: parameters[1]
+    });
+  },
+  required_unless: function(template, rule) {
+    var parameters = rule.getParameters();
+    return this._replacePlaceholders(rule, template, {
+      other: this._getAttributeName(parameters[0]),
+      value: parameters[1]
+    });
+  },
+  required_with: function(template, rule) {
+    var parameters = rule.getParameters();
+    return this._replacePlaceholders(rule, template, {
+      field: this._getAttributeName(parameters[0])
+    });
+  },
+  required_with_all: function(template, rule) {
+    var parameters = rule.getParameters();
+    var getAttributeName = this._getAttributeName.bind(this);
+    return this._replacePlaceholders(rule, template, {
+      fields: parameters.map(getAttributeName).join(", ")
+    });
+  },
+  required_without: function(template, rule) {
+    var parameters = rule.getParameters();
+    return this._replacePlaceholders(rule, template, {
+      field: this._getAttributeName(parameters[0])
+    });
+  },
+  required_without_all: function(template, rule) {
+    var parameters = rule.getParameters();
+    var getAttributeName = this._getAttributeName.bind(this);
+    return this._replacePlaceholders(rule, template, {
+      fields: parameters.map(getAttributeName).join(", ")
+    });
+  },
+  after: function(template, rule) {
+    var parameters = rule.getParameters();
+    return this._replacePlaceholders(rule, template, {
+      after: this._getAttributeName(parameters[0])
+    });
+  },
+  before: function(template, rule) {
+    var parameters = rule.getParameters();
+    return this._replacePlaceholders(rule, template, {
+      before: this._getAttributeName(parameters[0])
+    });
+  },
+  after_or_equal: function(template, rule) {
+    var parameters = rule.getParameters();
+    return this._replacePlaceholders(rule, template, {
+      after_or_equal: this._getAttributeName(parameters[0])
+    });
+  },
+  before_or_equal: function(template, rule) {
+    var parameters = rule.getParameters();
+    return this._replacePlaceholders(rule, template, {
+      before_or_equal: this._getAttributeName(parameters[0])
+    });
+  },
+  same: function(template, rule) {
+    var parameters = rule.getParameters();
+    return this._replacePlaceholders(rule, template, {
+      same: this._getAttributeName(parameters[0])
+    });
+  }
+};
+function formatter(attribute) {
+  return attribute.replace(/[_\[]/g, " ").replace(/]/g, "");
+}
+var attributes = {
+  replacements,
+  formatter
+};
+var Attributes$1 = attributes;
+var Messages$1 = function(lang2, messages2) {
+  this.lang = lang2;
+  this.messages = messages2;
+  this.customMessages = {};
+  this.attributeNames = {};
+};
+Messages$1.prototype = {
+  constructor: Messages$1,
+  _setCustom: function(customMessages) {
+    this.customMessages = customMessages || {};
+  },
+  _setAttributeNames: function(attributes2) {
+    this.attributeNames = attributes2;
+  },
+  _setAttributeFormatter: function(func) {
+    this.attributeFormatter = func;
+  },
+  _getAttributeName: function(attribute) {
+    var name = attribute;
+    if (this.attributeNames.hasOwnProperty(attribute)) {
+      return this.attributeNames[attribute];
+    } else if (this.messages.attributes.hasOwnProperty(attribute)) {
+      name = this.messages.attributes[attribute];
+    }
+    if (this.attributeFormatter) {
+      name = this.attributeFormatter(name);
+    }
+    return name;
+  },
+  all: function() {
+    return this.messages;
+  },
+  render: function(rule) {
+    if (rule.customMessage) {
+      return rule.customMessage;
+    }
+    var template = this._getTemplate(rule);
+    var message2;
+    if (Attributes$1.replacements[rule.name]) {
+      message2 = Attributes$1.replacements[rule.name].apply(this, [template, rule]);
+    } else {
+      message2 = this._replacePlaceholders(rule, template, {});
+    }
+    return message2;
+  },
+  _getTemplate: function(rule) {
+    var messages2 = this.messages;
+    var template = messages2.def;
+    var customMessages = this.customMessages;
+    var formats = [rule.name + "." + rule.attribute, rule.name];
+    for (var i = 0, format; i < formats.length; i++) {
+      format = formats[i];
+      if (customMessages.hasOwnProperty(format)) {
+        template = customMessages[format];
+        break;
+      } else if (messages2.hasOwnProperty(format)) {
+        template = messages2[format];
+        break;
+      }
+    }
+    if (typeof template === "object") {
+      template = template[rule._getValueType()];
+    }
+    return template;
+  },
+  _replacePlaceholders: function(rule, template, data) {
+    var message2, attribute;
+    data.attribute = this._getAttributeName(rule.attribute);
+    data[rule.name] = data[rule.name] || rule.getParameters().join(",");
+    if (typeof template === "string" && typeof data === "object") {
+      message2 = template;
+      for (attribute in data) {
+        message2 = message2.replace(new RegExp(":" + attribute, "g"), data[attribute]);
+      }
+    }
+    return message2;
+  }
+};
+var messages = Messages$1;
+var Messages = messages;
+var require_method = commonjsRequire;
+var container = {
+  messages: {},
+  _set: function(lang2, rawMessages) {
+    this.messages[lang2] = rawMessages;
+  },
+  _setRuleMessage: function(lang2, attribute, message2) {
+    this._load(lang2);
+    if (message2 === void 0) {
+      message2 = this.messages[lang2].def;
+    }
+    this.messages[lang2][attribute] = message2;
+  },
+  _load: function(lang2) {
+    if (!this.messages[lang2]) {
+      try {
+        var rawMessages = require_method("./lang/" + lang2);
+        this._set(lang2, rawMessages);
+      } catch (e) {
+      }
+    }
+  },
+  _get: function(lang2) {
+    this._load(lang2);
+    return this.messages[lang2];
+  },
+  _make: function(lang2) {
+    this._load(lang2);
+    return new Messages(lang2, this.messages[lang2]);
+  }
+};
+var lang = container;
+var Errors$1 = function() {
+  this.errors = {};
+};
+Errors$1.prototype = {
+  constructor: Errors$1,
+  add: function(attribute, message2) {
+    if (!this.has(attribute)) {
+      this.errors[attribute] = [];
+    }
+    if (this.errors[attribute].indexOf(message2) === -1) {
+      this.errors[attribute].push(message2);
+    }
+  },
+  get: function(attribute) {
+    if (this.has(attribute)) {
+      return this.errors[attribute];
+    }
+    return [];
+  },
+  first: function(attribute) {
+    if (this.has(attribute)) {
+      return this.errors[attribute][0];
+    }
+    return false;
+  },
+  all: function() {
+    return this.errors;
+  },
+  has: function(attribute) {
+    if (this.errors.hasOwnProperty(attribute)) {
+      return true;
+    }
+    return false;
+  }
+};
+var errors = Errors$1;
+function AsyncResolvers$1(onFailedOne, onResolvedAll) {
+  this.onResolvedAll = onResolvedAll;
+  this.onFailedOne = onFailedOne;
+  this.resolvers = {};
+  this.resolversCount = 0;
+  this.passed = [];
+  this.failed = [];
+  this.firing = false;
+}
+AsyncResolvers$1.prototype = {
+  add: function(rule) {
+    var index = this.resolversCount;
+    this.resolvers[index] = rule;
+    this.resolversCount++;
+    return index;
+  },
+  resolve: function(index) {
+    var rule = this.resolvers[index];
+    if (rule.passes === true) {
+      this.passed.push(rule);
+    } else if (rule.passes === false) {
+      this.failed.push(rule);
+      this.onFailedOne(rule);
+    }
+    this.fire();
+  },
+  isAllResolved: function() {
+    return this.passed.length + this.failed.length === this.resolversCount;
+  },
+  fire: function() {
+    if (!this.firing) {
+      return;
+    }
+    if (this.isAllResolved()) {
+      this.onResolvedAll(this.failed.length === 0);
+    }
+  },
+  enableFiring: function() {
+    this.firing = true;
+  }
+};
+var async = AsyncResolvers$1;
+var Rules = rules_1;
+var Lang = lang;
+var Errors = errors;
+var Attributes = attributes;
+var AsyncResolvers = async;
+var Validator = function(input, rules2, customMessages) {
+  var lang2 = Validator.getDefaultLang();
+  this.input = input || {};
+  this.messages = Lang._make(lang2);
+  this.messages._setCustom(customMessages);
+  this.setAttributeFormatter(Validator.prototype.attributeFormatter);
+  this.errors = new Errors();
+  this.errorCount = 0;
+  this.hasAsync = false;
+  this.rules = this._parseRules(rules2);
+};
+Validator.prototype = {
+  constructor: Validator,
+  lang: "en",
+  numericRules: ["integer", "numeric"],
+  attributeFormatter: Attributes.formatter,
+  check: function() {
+    for (var attribute in this.rules) {
+      var attributeRules = this.rules[attribute];
+      var inputValue = this._objectPath(this.input, attribute);
+      if (this._hasRule(attribute, ["sometimes"]) && !this._suppliedWithData(attribute)) {
+        continue;
+      }
+      for (var i = 0, len = attributeRules.length, rule, ruleOptions, rulePassed; i < len; i++) {
+        ruleOptions = attributeRules[i];
+        rule = this.getRule(ruleOptions.name);
+        if (!this._isValidatable(rule, inputValue)) {
+          continue;
+        }
+        rulePassed = rule.validate(inputValue, ruleOptions.value, attribute);
+        if (!rulePassed) {
+          this._addFailure(rule);
+        }
+        if (this._shouldStopValidating(attribute, rulePassed)) {
+          break;
+        }
+      }
+    }
+    return this.errorCount === 0;
+  },
+  checkAsync: function(passes, fails) {
+    var _this = this;
+    passes = passes || function() {
+    };
+    fails = fails || function() {
+    };
+    var failsOne = function(rule2, message2) {
+      _this._addFailure(rule2, message2);
+    };
+    var resolvedAll = function(allPassed) {
+      if (allPassed) {
+        passes();
+      } else {
+        fails();
+      }
+    };
+    var asyncResolvers = new AsyncResolvers(failsOne, resolvedAll);
+    var validateRule = function(inputValue2, ruleOptions2, attribute2, rule2) {
+      return function() {
+        var resolverIndex = asyncResolvers.add(rule2);
+        rule2.validate(inputValue2, ruleOptions2.value, attribute2, function() {
+          asyncResolvers.resolve(resolverIndex);
+        });
+      };
+    };
+    for (var attribute in this.rules) {
+      var attributeRules = this.rules[attribute];
+      var inputValue = this._objectPath(this.input, attribute);
+      if (this._hasRule(attribute, ["sometimes"]) && !this._suppliedWithData(attribute)) {
+        continue;
+      }
+      for (var i = 0, len = attributeRules.length, rule, ruleOptions; i < len; i++) {
+        ruleOptions = attributeRules[i];
+        rule = this.getRule(ruleOptions.name);
+        if (!this._isValidatable(rule, inputValue)) {
+          continue;
+        }
+        validateRule(inputValue, ruleOptions, attribute, rule)();
+      }
+    }
+    asyncResolvers.enableFiring();
+    asyncResolvers.fire();
+  },
+  _addFailure: function(rule) {
+    var msg = this.messages.render(rule);
+    this.errors.add(rule.attribute, msg);
+    this.errorCount++;
+  },
+  _flattenObject: function(obj) {
+    var flattened = {};
+    function recurse(current, property) {
+      if (!property && Object.getOwnPropertyNames(current).length === 0) {
+        return;
+      }
+      if (Object(current) !== current || Array.isArray(current)) {
+        flattened[property] = current;
+      } else {
+        var isEmpty = true;
+        for (var p in current) {
+          isEmpty = false;
+          recurse(current[p], property ? property + "." + p : p);
+        }
+        if (isEmpty) {
+          flattened[property] = {};
+        }
+      }
+    }
+    if (obj) {
+      recurse(obj);
+    }
+    return flattened;
+  },
+  _objectPath: function(obj, path) {
+    if (Object.prototype.hasOwnProperty.call(obj, path)) {
+      return obj[path];
+    }
+    var keys = path.replace(/\[(\w+)\]/g, ".$1").replace(/^\./, "").split(".");
+    var copy = {};
+    for (var attr in obj) {
+      if (Object.prototype.hasOwnProperty.call(obj, attr)) {
+        copy[attr] = obj[attr];
+      }
+    }
+    for (var i = 0, l = keys.length; i < l; i++) {
+      if (typeof copy === "object" && copy !== null && Object.hasOwnProperty.call(copy, keys[i])) {
+        copy = copy[keys[i]];
+      } else {
+        return;
+      }
+    }
+    return copy;
+  },
+  _parseRules: function(rules2) {
+    var parsedRules = {};
+    rules2 = this._flattenObject(rules2);
+    for (var attribute in rules2) {
+      var rulesArray = rules2[attribute];
+      this._parseRulesCheck(attribute, rulesArray, parsedRules);
+    }
+    return parsedRules;
+  },
+  _parseRulesCheck: function(attribute, rulesArray, parsedRules, wildCardValues) {
+    if (attribute.indexOf("*") > -1) {
+      this._parsedRulesRecurse(attribute, rulesArray, parsedRules, wildCardValues);
+    } else {
+      this._parseRulesDefault(attribute, rulesArray, parsedRules, wildCardValues);
+    }
+  },
+  _parsedRulesRecurse: function(attribute, rulesArray, parsedRules, wildCardValues) {
+    var parentPath = attribute.substr(0, attribute.indexOf("*") - 1);
+    var propertyValue = this._objectPath(this.input, parentPath);
+    if (propertyValue) {
+      for (var propertyNumber = 0; propertyNumber < propertyValue.length; propertyNumber++) {
+        var workingValues = wildCardValues ? wildCardValues.slice() : [];
+        workingValues.push(propertyNumber);
+        this._parseRulesCheck(attribute.replace("*", propertyNumber), rulesArray, parsedRules, workingValues);
+      }
+    }
+  },
+  _parseRulesDefault: function(attribute, rulesArray, parsedRules, wildCardValues) {
+    var attributeRules = [];
+    if (rulesArray instanceof Array) {
+      rulesArray = this._prepareRulesArray(rulesArray);
+    }
+    if (typeof rulesArray === "string") {
+      rulesArray = rulesArray.split("|");
+    }
+    for (var i = 0, len = rulesArray.length, rule; i < len; i++) {
+      rule = typeof rulesArray[i] === "string" ? this._extractRuleAndRuleValue(rulesArray[i]) : rulesArray[i];
+      if (rule.value) {
+        rule.value = this._replaceWildCards(rule.value, wildCardValues);
+        this._replaceWildCardsMessages(wildCardValues);
+      }
+      if (Rules.isAsync(rule.name)) {
+        this.hasAsync = true;
+      }
+      attributeRules.push(rule);
+    }
+    parsedRules[attribute] = attributeRules;
+  },
+  _replaceWildCards: function(path, nums) {
+    if (!nums) {
+      return path;
+    }
+    var path2 = path;
+    nums.forEach(function(value) {
+      if (Array.isArray(path2)) {
+        path2 = path2[0];
+      }
+      const pos = path2.indexOf("*");
+      if (pos === -1) {
+        return path2;
+      }
+      path2 = path2.substr(0, pos) + value + path2.substr(pos + 1);
+    });
+    if (Array.isArray(path)) {
+      path[0] = path2;
+      path2 = path;
+    }
+    return path2;
+  },
+  _replaceWildCardsMessages: function(nums) {
+    var customMessages = this.messages.customMessages;
+    var self = this;
+    Object.keys(customMessages).forEach(function(key) {
+      if (nums) {
+        var newKey = self._replaceWildCards(key, nums);
+        customMessages[newKey] = customMessages[key];
+      }
+    });
+    this.messages._setCustom(customMessages);
+  },
+  _prepareRulesArray: function(rulesArray) {
+    var rules2 = [];
+    for (var i = 0, len = rulesArray.length; i < len; i++) {
+      if (typeof rulesArray[i] === "object") {
+        for (var rule in rulesArray[i]) {
+          rules2.push({
+            name: rule,
+            value: rulesArray[i][rule]
+          });
+        }
+      } else {
+        rules2.push(rulesArray[i]);
+      }
+    }
+    return rules2;
+  },
+  _suppliedWithData: function(attribute) {
+    return this.input.hasOwnProperty(attribute);
+  },
+  _extractRuleAndRuleValue: function(ruleString) {
+    var rule = {}, ruleArray;
+    rule.name = ruleString;
+    if (ruleString.indexOf(":") >= 0) {
+      ruleArray = ruleString.split(":");
+      rule.name = ruleArray[0];
+      rule.value = ruleArray.slice(1).join(":");
+    }
+    return rule;
+  },
+  _hasRule: function(attribute, findRules) {
+    var rules2 = this.rules[attribute] || [];
+    for (var i = 0, len = rules2.length; i < len; i++) {
+      if (findRules.indexOf(rules2[i].name) > -1) {
+        return true;
+      }
+    }
+    return false;
+  },
+  _hasNumericRule: function(attribute) {
+    return this._hasRule(attribute, this.numericRules);
+  },
+  _isValidatable: function(rule, value) {
+    if (Array.isArray(value)) {
+      return true;
+    }
+    if (Rules.isImplicit(rule.name)) {
+      return true;
+    }
+    return this.getRule("required").validate(value);
+  },
+  _shouldStopValidating: function(attribute, rulePassed) {
+    var stopOnAttributes = this.stopOnAttributes;
+    if (typeof stopOnAttributes === "undefined" || stopOnAttributes === false || rulePassed === true) {
+      return false;
+    }
+    if (stopOnAttributes instanceof Array) {
+      return stopOnAttributes.indexOf(attribute) > -1;
+    }
+    return true;
+  },
+  setAttributeNames: function(attributes2) {
+    this.messages._setAttributeNames(attributes2);
+  },
+  setAttributeFormatter: function(func) {
+    this.messages._setAttributeFormatter(func);
+  },
+  getRule: function(name) {
+    return Rules.make(name, this);
+  },
+  stopOnError: function(attributes2) {
+    this.stopOnAttributes = attributes2;
+  },
+  passes: function(passes) {
+    var async2 = this._checkAsync("passes", passes);
+    if (async2) {
+      return this.checkAsync(passes);
+    }
+    return this.check();
+  },
+  fails: function(fails) {
+    var async2 = this._checkAsync("fails", fails);
+    if (async2) {
+      return this.checkAsync(function() {
+      }, fails);
+    }
+    return !this.check();
+  },
+  _checkAsync: function(funcName, callback) {
+    var hasCallback = typeof callback === "function";
+    if (this.hasAsync && !hasCallback) {
+      throw funcName + " expects a callback when async rules are being tested.";
+    }
+    return this.hasAsync || hasCallback;
+  }
+};
+Validator.setMessages = function(lang2, messages2) {
+  Lang._set(lang2, messages2);
+  return this;
+};
+Validator.getMessages = function(lang2) {
+  return Lang._get(lang2);
+};
+Validator.useLang = function(lang2) {
+  this.prototype.lang = lang2;
+};
+Validator.getDefaultLang = function() {
+  return this.prototype.lang;
+};
+Validator.setAttributeFormatter = function(func) {
+  this.prototype.attributeFormatter = func;
+};
+Validator.stopOnError = function(attributes2) {
+  this.prototype.stopOnAttributes = attributes2;
+};
+Validator.register = function(name, fn, message2, fnReplacement) {
+  var lang2 = Validator.getDefaultLang();
+  Rules.register(name, fn);
+  Lang._setRuleMessage(lang2, name, message2);
+};
+Validator.registerImplicit = function(name, fn, message2, fnReplacement) {
+  var lang2 = Validator.getDefaultLang();
+  Rules.registerImplicit(name, fn);
+  Lang._setRuleMessage(lang2, name, message2);
+};
+Validator.registerAsync = function(name, fn, message2, fnReplacement) {
+  var lang2 = Validator.getDefaultLang();
+  Rules.registerAsync(name, fn);
+  Lang._setRuleMessage(lang2, name, message2);
+};
+Validator.registerAsyncImplicit = function(name, fn, message2) {
+  var lang2 = Validator.getDefaultLang();
+  Rules.registerAsyncImplicit(name, fn);
+  Lang._setRuleMessage(lang2, name, message2);
+};
+Validator.registerMissedRuleValidator = function(fn, message2) {
+  Rules.registerMissedRuleValidator(fn, message2);
+};
+var validator = Validator;
+var Validator$1 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ _mergeNamespaces({
+  __proto__: null,
+  [Symbol.toStringTag]: "Module",
+  "default": validator
+}, [validator]));
 class Form {
   constructor(data = {}, options = {}) {
+    __publicField(this, "processing");
+    __publicField(this, "successful");
+    __publicField(this, "errors");
+    __publicField(this, "__options");
+    __publicField(this, "initial");
     this.processing = false;
     this.successful = false;
     this.withData(data).withOptions(options).withErrors({});
@@ -395,7 +1605,7 @@ class Form {
       }, {});
     }
     this.setInitialValues(data);
-    this.errors = new Errors();
+    this.errors = new Errors$2();
     this.processing = false;
     this.successful = false;
     for (const field in data) {
@@ -404,8 +1614,8 @@ class Form {
     }
     return this;
   }
-  withErrors(errors) {
-    this.errors = new Errors(errors);
+  withErrors(errors2) {
+    this.errors = new Errors$2(errors2);
     return this;
   }
   withOptions(options) {
@@ -548,6 +1758,18 @@ class Form {
     const requestTypes = ["get", "delete", "head", "post", "put", "patch"];
     if (requestTypes.indexOf(requestType) === -1) {
       throw new Error(`\`${requestType}\` is not a valid request type, must be one of: \`${requestTypes.join("`, `")}\`.`);
+    }
+  }
+  validate(rules2, customErrorMessages) {
+    this.errors.clear();
+    this.processing = true;
+    this.successful = false;
+    let validation = new Validator$1(this.data(), rules2);
+    if (validation.fails()) {
+      this.successful = false;
+      this.errors.record(validation.errors.all());
+    } else {
+      this.successful = true;
     }
   }
   static create(data = {}) {
