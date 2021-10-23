@@ -2,7 +2,7 @@
   "name": "upvue",
   "description": "Vue toolkit of plugins to bootstrap your VueApp with everything you need",
   "homepage": "https://github.com/uptoolkit/upvue",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "author": "Daniel Sum",
   "email": "daniel@cherrypulp.com",
   "license": "MIT",
