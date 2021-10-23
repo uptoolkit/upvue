@@ -1,6 +1,7 @@
 {
   "name": "upvue",
   "description": "Vue toolkit of plugins to bootstrap your VueApp with everything you need",
+  "homepage": "https://github.com/uptoolkit/upvue",
   "version": "1.2.1",
   "author": "Daniel Sum",
   "email": "daniel@cherrypulp.com",
@@ -13,7 +14,7 @@
     "docs:build": "vuepress build docs"
   },
   "main": "dist/index.umd.js",
-  "module": "dist/mjs/index.es.js",
+  "module": "dist/index.es.js",
   "exports": {
     ".": {
       "import": "./dist/index.es.js",

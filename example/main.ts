@@ -3,7 +3,7 @@ import App from './App.vue'
 import {UpVue} from "../src";
 import router from "./routes";
 import store from "./store";
-import 'ant-design-vue/dist/antd.css';
+import 'upui-vue/dist/index.css';
 import './index.css';
 
 createApp(App)

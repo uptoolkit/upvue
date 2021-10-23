@@ -51,7 +51,7 @@ import router from "./routes"
 import store from "./store"
 import App from './App.vue'
 
-import 'ant-design-vue/dist/antd.css' // optionnal
+import 'upui-vue/dist/index.css' // optionnal
 import './index.css' // import tailwind base see: https://tailwindcss.com/
 
 createApp(App)
