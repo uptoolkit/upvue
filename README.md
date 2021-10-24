@@ -3,6 +3,8 @@
 [![Latest Version on NPM](https://img.shields.io/npm/v/upvue.svg?style=flat-square)](https://npmjs.com/package/js-form-helper)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
 
+Up to date plugins wrapper to have everything you need to start your awesome web app.
+
 ## Why ?
 
 🥸 : Bootstrapping a project is unexpectedly very difficult because there are so many choices, too many setups and configs to do before just working on a project...
@@ -16,6 +18,7 @@
 - [DaisyUI a Tailwind components extension](https://daisyui.com/)
 - [AntDesignVue as Ui Library](https://antdv.com/)
 - [Axios for the ajax request](https://axios-http.com/)
+- [VueApollo for graphql request](https://v4.apollo.vuejs.org/)
 - [I18n for the translations helpers](https://www.npmjs.com/package/@cherrypulp/i18n)
 - [Collect.js for config provider](https://collect.js.org/)
 - [VueUse as Vue3 helpers](https://vueuse.org/)
@@ -30,7 +33,7 @@
 🧐 : "Mmh, yes but what if I want to..."
 
 🥸 : Shut ! I know your dev syndrom... At the minimum, you will have a good boilerplate and UP to you to
-override it when you will feel the need. Thanks to our "[convention over configuration philosophy](https://en.wikipedia.org/wiki/Convention_over_configuration)" and [S.O.L.I.D principle](https://en.wikipedia.org/wiki/SOLID) :-).
+override it when you will feel the need. Thanks to our "[convention over configuration philosophy](https://en.wikipedia.org/wiki/Convention_over_configuration)" and [S.O.L.I.D principle](https://en.wikipedia.org/wiki/SOLID) we try to keep it neat with the more used tools but allow you to remove it or replace it.  :-).
 
 😁 : "Ok now I want to start !!!"
 
@@ -70,6 +73,11 @@ createApp(App)
     // store: store, // if vuex you must define vuex store
     api: {
       url: '/api', // Replace with your api endpoint
+      //client: axiosInstance, // Replace with your axios instance if needed
+    },
+    graphql: {
+      url: 'https://api.mocki.io/v2/c4d7a195/graphql', // Replace with your graphql Api URL using default configuration
+      //client: apolloClient, // you can also override with your own apolloClient instance @see https://v4.apollo.vuejs.org/guide-option/setup.html#_2-create-the-apollo-client
     },
     translations: {
       en_EN: {
@@ -155,6 +163,19 @@ export default {
 ### What's the difference between inject and useUp() ?
 
 This is mainly a design pattern UP to you :-). With inject you can abstract the injection and replace the helper with the one you want and import UpVue in one place but with useUp() you can also simply change the useUp import by a search and replace.
+
+### What if I want to remove or override things ?
+
+As being said, we use a S.O.L.I.D principle so if you want to override or explude components, just do : 
+
+`````javascript
+//exclude: [
+// 'antd' //-> if you don't want to include the Antd Design Ui Kit
+//],
+//override: {
+// 'i18n' //-> if you want to override a package (just make sure that you implement the same typed interface)
+//}
+`````
 
 ## Digging deeper
 

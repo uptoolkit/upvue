@@ -3,6 +3,9 @@ import type {App} from 'vue';
 import Antd from 'ant-design-vue';
 import {message, notification} from 'ant-design-vue';
 import {VueI18n, createI18n} from '@cherrypulp/i18n';
+import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client/core';
+import { DefaultApolloClient } from '@vue/apollo-composable';
+import { createApolloProvider } from '@vue/apollo-option';
 import Config from 'js-config-helper';
 // @ts-ignore
 import {axios} from '@bundled-es-modules/axios';
@@ -12,6 +15,7 @@ import {Form} from 'js-form-helper';
 import {Axios, AxiosInstance} from "axios";
 import I18n from "@cherrypulp/i18n/types/I18n";
 import {Store} from "vuex";
+import {ApolloProviderOptions} from "@vue/apollo-option/types/apollo-provider";
 
 /**
  * Define the vue options interface
@@ -48,13 +52,14 @@ declare global {
     }
 }
 
-let api: AxiosInstance;
-let http: AxiosInstance;
-let config: Collection<object>;
+let api: object|AxiosInstance;
+let http: object|AxiosInstance;
+let config: Config;
 let i18n: I18n;
 let store: Store<object> | unknown;
 let form: Form;
 let formApi: Form;
+let graphql: ApolloClient<any>| unknown;
 
 /**
  * Access to the instance a a singleton
@@ -135,8 +140,46 @@ export const UpVue = {
             });
         }
 
+        /**
+         * Include Antd if it's not excluded
+         */
         if (!config.has('exclude.antd')) {
             app.use(Antd);
+        }
+
+        /**
+         * Add graphql
+         */
+        if (!config.has('exclude.graphql')) {
+
+            if (!config.has('graphql.client')) {
+                // @ts-ignore
+                const httpLink = createHttpLink({
+                    uri: config.get('graphql.url'),
+                });
+
+                const cache = new InMemoryCache()
+
+                const apolloClient = new ApolloClient({
+                    link: httpLink,
+                    cache,
+                });
+
+                const apolloProvider = createApolloProvider({
+                    defaultClient: apolloClient,
+                });
+
+                app.use(apolloProvider);
+                app.provide(DefaultApolloClient, apolloClient);
+            } else {
+
+                const apolloProvider = createApolloProvider(<ApolloProviderOptions>{
+                    defaultClient: config.get('graphql.client'),
+                });
+
+                app.use(apolloProvider);
+                app.provide(DefaultApolloClient, config.get('graphql.client'));
+            }
         }
 
         app.provide('UpVue', options);

@@ -48,6 +48,8 @@ import {defineComponent} from "vue";
 import UpLayout from "../../src/layouts/UpLayout.vue";
 import PageLayout from "./../layouts/PageLayout.vue";
 import {useUp} from "../../src";
+import { useQuery } from '@vue/apollo-composable'
+import gql from 'graphql-tag'
 
 defineComponent({
   UpLayout,
@@ -61,6 +63,17 @@ const handleAlert = () => {
   message.info('This is a normal message');
   notification.info('This is a normal message');
 }
+
+const { result, loading } = useQuery(gql`
+      query getUsers {
+        users {
+          id
+          firstname
+          lastname
+          email
+        }
+      }
+    `)
 </script>
 
 <style scoped>
