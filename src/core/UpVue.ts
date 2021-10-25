@@ -35,6 +35,10 @@ interface VueOptions {
     api: {
         url: string;
     };
+    graphql?: {
+        url?: string;
+        client?: any;
+    };
     translations: Record<string, object|string>;
     locale: string;
     locales: Record<string, object>;
