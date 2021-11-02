@@ -11,5 +11,5 @@ features:
   details: Get a boilerplate and play with it.
 - title: S.O.L.I.D principle
   details: Everything can be overwriten and extended.
-footer: Made by Daniel Sum from Cherry Pulp with ❤️
+footer: Made with ❤️️ by Daniel Sum from Cherry Pulp
 ---
