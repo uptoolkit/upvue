@@ -1,6 +1,7 @@
 # Up Vue
 
-[![Latest Version on NPM](https://img.shields.io/npm/v/upvue.svg?style=flat-square)](https://npmjs.com/package/js-form-helper)
+[![Latest Version on NPM](https://img.shields.io/npm/v/upvue.svg?style=flat-square)](https://npmjs.com/package/upvue)
+![npm](https://img.shields.io/npm/dt/upvue)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
 
 Up to date plugins wrapper to have everything you need to start your awesome web app.
