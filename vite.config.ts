@@ -11,8 +11,8 @@ export default defineConfig({
     lib:
         {
           entry: path.resolve(__dirname, 'src/index.ts'),
-          name: 'upvue',
-          fileName: (format) => `index.${format}.js`
+          name: 'Upvue',
+          fileName: (format) => `upvue.${format}.js`
         }
     ,
     rollupOptions: {

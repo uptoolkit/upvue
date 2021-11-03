@@ -1,7 +1,7 @@
 import {
     useUp,
     UpVue
-} from './core/UpVue';
+} from './core';
 import UpLayout from './layouts/UpLayout.vue';
 
 export {

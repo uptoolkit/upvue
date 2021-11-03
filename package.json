@@ -14,12 +14,17 @@
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs"
   },
-  "main": "dist/index.umd.js",
-  "module": "dist/index.es.js",
+  "files": [
+    "dist",
+    "src",
+    "types"
+  ],
+  "main": "./dist/upvue.umd.js",
+  "module": "./dist/upvue.es.js",
   "exports": {
     ".": {
-      "import": "./dist/index.es.js",
-      "require": "./dist/index.umd.js"
+      "import": "./dist/upvue.es.js",
+      "require": "./dist/upvue.umd.js"
     }
   },
   "typings": "types/index.d.ts",
