@@ -81,7 +81,7 @@ let graphql: ApolloClient<any>| unknown;
 /**
  * Access to the instance a a singleton
  */
-export let useUp:exportedVars|Function;
+export let useUp:() => exportedVars;
 
 export const UpVue = {
 
@@ -109,6 +109,7 @@ export const UpVue = {
 
         // Define form helper and wrapper from the Form Lib
         if (!config.has('exclude.form')) {
+            // @ts-ignore
             form = function (data: object, options: object):Form {
                 return new Form(data, {
                     ...{
@@ -118,6 +119,7 @@ export const UpVue = {
                 });
             }
 
+            // @ts-ignore
             formApi = function(data: object, options: object):Form {
                 return new Form(data, {
                     ...{
@@ -234,7 +236,7 @@ export const UpVue = {
                 console.log('⤴ useUp() accessible vars :', exported);
             }
 
-            useUp = ():exportedVars => {
+            useUp = () => {
                 return exported
             };
         }

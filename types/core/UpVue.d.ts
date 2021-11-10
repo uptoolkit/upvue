@@ -1,4 +1,6 @@
 import type { App } from 'vue';
+import { message, notification } from 'ant-design-vue';
+import { Form } from 'js-form-helper';
 import { Axios } from "axios";
 import { Store } from "vuex";
 /**
@@ -28,6 +30,20 @@ interface VueOptions {
     locales: Record<string, object>;
     exclude: Array<string>;
 }
+export interface exportedVars {
+    config: boolean;
+    api: boolean;
+    http: boolean;
+    i18n: boolean;
+    form: Form;
+    formApi: Form;
+    store?: boolean;
+    t?(key: string, data?: object, lang?: string): string | any;
+    __?(key: string, data?: object, lang?: string): string | any;
+    choice?(key: string, count?: number, data?: any, locale?: string): string | any;
+    message?: typeof message;
+    notification?: typeof notification;
+}
 /**
  * If defined we allow to use the window global of axios and translations
  */
@@ -41,7 +57,7 @@ declare global {
 /**
  * Access to the instance a a singleton
  */
-export declare let useUp: unknown | Function;
+export declare let useUp: exportedVars | Function;
 export declare const UpVue: {
     install: (app: App, options: VueOptions) => void;
 };
