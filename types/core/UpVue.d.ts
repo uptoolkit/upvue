@@ -57,7 +57,7 @@ declare global {
 /**
  * Access to the instance a a singleton
  */
-export declare let useUp: exportedVars | Function;
+export declare let useUp: unknown | exportedVars | Function;
 export declare const UpVue: {
     install: (app: App, options: VueOptions) => void;
 };

@@ -11000,6 +11000,7 @@ const UpVue = {
         });
         app.use(apolloProvider);
         app.provide(DefaultApolloClient, apolloClient);
+        graphql = apolloClient;
       } else {
         const apolloClient = config.get("graphql.client");
         const apolloProvider = createApolloProvider({
@@ -11007,6 +11008,7 @@ const UpVue = {
         });
         app.use(apolloProvider);
         app.provide(DefaultApolloClient, apolloClient);
+        graphql = apolloClient;
       }
     }
     app.provide("UpVue", options);
