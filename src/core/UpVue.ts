@@ -3,9 +3,9 @@ import type {App} from 'vue';
 import Antd from 'ant-design-vue';
 import {message, notification} from 'ant-design-vue';
 import {VueI18n, createI18n} from '@cherrypulp/i18n';
-import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client/core';
-import { DefaultApolloClient, provideApolloClient } from '@vue/apollo-composable';
-import { createApolloProvider } from '@vue/apollo-option';
+import {ApolloClient, createHttpLink, InMemoryCache} from '@apollo/client/core';
+import {DefaultApolloClient, provideApolloClient} from '@vue/apollo-composable';
+import {createApolloProvider} from '@vue/apollo-option';
 import {Config} from 'js-config-helper';
 import axios from "axios";
 import UpLayout from '../layouts/UpLayout.vue';
@@ -29,7 +29,7 @@ interface VueOptions {
     };
     i18n: Record<string, unknown>;
     storeMode: "reactive" | "vuex";
-    store: Store<unknown|object>;
+    store: Store<unknown | object>;
     api: {
         url: string;
     };
@@ -37,10 +37,10 @@ interface VueOptions {
         url?: string;
         client?: any;
     };
-    translations: Record<string, object|string>;
+    translations: Record<string, object | string>;
     locale: string;
     locales: Record<string, object>;
-    exclude:Array<string>
+    exclude: Array<string>
 }
 
 export interface exportedVars {
@@ -51,9 +51,13 @@ export interface exportedVars {
     form: Form;
     formApi: Form;
     store?: boolean;
+
     t?(key: string, data?: object, lang?: string): string | any;
+
     __?(key: string, data?: object, lang?: string): string | any;
+
     choice?(key: string, count?: number, data?: any, locale?: string): string | any;
+
     message?: typeof message;
     notification?: typeof notification;
 }
@@ -69,19 +73,19 @@ declare global {
     }
 }
 
-let api: object|AxiosInstance;
-let http: object|AxiosInstance;
+let api: object | AxiosInstance;
+let http: object | AxiosInstance;
 let config: Config;
 let i18n: I18n;
 let store: Store<object> | unknown;
 let form: Form;
 let formApi: Form;
-let graphql: ApolloClient<any>| unknown;
+let graphql: ApolloClient<any> | unknown;
 
 /**
  * Access to the instance a a singleton
  */
-export let useUp:() => exportedVars;
+export let useUp: unknown | exportedVars | Function;
 
 export const UpVue = {
 
@@ -110,7 +114,7 @@ export const UpVue = {
         // Define form helper and wrapper from the Form Lib
         if (!config.has('exclude.form')) {
             // @ts-ignore
-            form = function (data: object, options: object):Form {
+            form = function (data: object, options: object): Form {
                 return new Form(data, {
                     ...{
                         http
@@ -120,7 +124,7 @@ export const UpVue = {
             }
 
             // @ts-ignore
-            formApi = function(data: object, options: object):Form {
+            formApi = function (data: object, options: object): Form {
                 return new Form(data, {
                     ...{
                         http: api
@@ -210,35 +214,33 @@ export const UpVue = {
         app.component('UpLayout', UpLayout);
 
         // Initialize the UpInstance singleton instance for composition Api
-        if (!useUp) {
-
-            /**
-             * Add additionnals exported items
-             */
-            const exported = {
-                api,
-                http,
-                config,
-                store,
-                form,
-                formApi,
-                graphql,
-                message,
-                notification,
-                i18n,
-                __: i18n.__.bind(i18n),
-                t: i18n.__.bind(i18n),
-                choice: i18n.choice.bind(i18n),
-                ...override
-            }
-
-            if (config.has('debug')) {
-                console.log('⤴ useUp() accessible vars :', exported);
-            }
-
-            useUp = () => {
-                return exported
-            };
+        /**
+         * Add additionnals exported items
+         */
+        const exported = {
+            api,
+            http,
+            config,
+            store,
+            form,
+            formApi,
+            graphql,
+            message,
+            notification,
+            i18n,
+            __: i18n.__.bind(i18n),
+            t: i18n.__.bind(i18n),
+            choice: i18n.choice.bind(i18n),
+            ...override
         }
+
+        if (config.has('debug')) {
+            console.log('⤴ useUp() accessible vars :', exported);
+        }
+
+        useUp = () => {
+            return exported
+        };
     },
 }
+

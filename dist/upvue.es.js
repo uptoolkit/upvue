@@ -11011,29 +11011,27 @@ const UpVue = {
     }
     app.provide("UpVue", options);
     app.component("UpLayout", UpLayout$1);
-    if (!useUp) {
-      const exported = __spreadValues({
-        api,
-        http,
-        config,
-        store,
-        form,
-        formApi,
-        graphql,
-        message,
-        notification,
-        i18n,
-        __: i18n.__.bind(i18n),
-        t: i18n.__.bind(i18n),
-        choice: i18n.choice.bind(i18n)
-      }, override);
-      if (config.has("debug")) {
-        console.log("\u2934 useUp() accessible vars :", exported);
-      }
-      useUp = () => {
-        return exported;
-      };
+    const exported = __spreadValues({
+      api,
+      http,
+      config,
+      store,
+      form,
+      formApi,
+      graphql,
+      message,
+      notification,
+      i18n,
+      __: i18n.__.bind(i18n),
+      t: i18n.__.bind(i18n),
+      choice: i18n.choice.bind(i18n)
+    }, override);
+    if (config.has("debug")) {
+      console.log("\u2934 useUp() accessible vars :", exported);
     }
+    useUp = () => {
+      return exported;
+    };
   }
 };
 export { UpLayout$1 as UpLayout, UpVue, useUp };
