@@ -16,7 +16,7 @@ var __spreadValues = (a, b) => {
 };
 import { defineComponent, ref, resolveComponent, openBlock, createBlock, withCtx, renderSlot, reactive } from "vue";
 import Antd, { ConfigProvider, message, notification } from "ant-design-vue";
-import { axios } from "@bundled-es-modules/axios";
+import axios$1 from "axios";
 class I18n {
   __(key, data = null, locale = null) {
     return this.get(key, data, locale);
@@ -9291,64 +9291,57 @@ function mergeObjectOptions(to, from) {
 function createApolloProvider(options) {
   return new ApolloProvider(options);
 }
-function getDefaultExportFromCjs(x) {
-  return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, "default") ? x["default"] : x;
-}
-var jsConfigHelper = {};
-(function(exports) {
-  exports.__esModule = true;
-  var Config2 = function() {
-    function Config3(options) {
-      this.options = options;
-    }
-    Config3.prototype.get = function(key, def) {
-      var keys = key.split(".");
-      var source = this.options;
-      keys.forEach(function(k) {
-        if (source) {
-          source = source[k];
-        }
-      });
-      if (!source && def) {
-        if (typeof def === "function") {
-          source = def();
-        } else {
-          source = def;
-        }
-      }
-      return source;
-    };
-    Config3.prototype.has = function(key) {
-      var keys = key.split(".");
-      var source = this.options;
-      keys.forEach(function(k) {
-        if (source) {
-          source = source[k];
-        }
-      });
-      return !!source;
-    };
-    Config3.prototype.set = function(key, value) {
-      var keys = key.split(".");
-      var source = this.options;
-      keys.forEach(function(k) {
-        if (source) {
-          source = source[k];
-        }
-      });
+var Config_1 = void 0;
+var Config = function() {
+  function Config2(options) {
+    this.options = options;
+  }
+  Config2.prototype.get = function(key, def) {
+    var keys = key.split(".");
+    var source = this.options;
+    keys.forEach(function(k) {
       if (source) {
-        source = value;
+        source = source[k];
       }
-      return source;
-    };
-    Config3.prototype.all = function() {
-      return this.options;
-    };
-    return Config3;
-  }();
-  exports["default"] = Config2;
-})(jsConfigHelper);
-var Config = /* @__PURE__ */ getDefaultExportFromCjs(jsConfigHelper);
+    });
+    if (!source && def) {
+      if (typeof def === "function") {
+        source = def();
+      } else {
+        source = def;
+      }
+    }
+    return source;
+  };
+  Config2.prototype.has = function(key) {
+    var keys = key.split(".");
+    var source = this.options;
+    keys.forEach(function(k) {
+      if (source) {
+        source = source[k];
+      }
+    });
+    return !!source;
+  };
+  Config2.prototype.set = function(key, value) {
+    var keys = key.split(".");
+    var source = this.options;
+    keys.forEach(function(k) {
+      if (source) {
+        source = source[k];
+      }
+    });
+    if (source) {
+      source = value;
+    }
+    return source;
+  };
+  Config2.prototype.all = function() {
+    return this.options;
+  };
+  return Config2;
+}();
+Config_1 = Config;
 var _export_sfc = (sfc, props) => {
   for (const [key, val] of props) {
     sfc[key] = val;
@@ -10943,14 +10936,15 @@ let i18n;
 let store;
 let form;
 let formApi;
+let graphql;
 let useUp;
 const UpVue = {
   install: (app, options) => {
-    config = new Config(options);
+    config = new Config_1(options);
     const override = config.get("override") || {};
     app.config.globalProperties.$config = config.get("override.config") || config;
-    app.config.globalProperties.$http = http = config.get("override.http") || axios.create();
-    app.config.globalProperties.$api = api = config.get("override.api") || axios.create({
+    app.config.globalProperties.$http = http = config.get("override.http") || axios$1.create();
+    app.config.globalProperties.$api = api = config.get("override.api") || axios$1.create({
       baseURL: options.api.url
     });
     app.config.globalProperties.$message = config.get("override.message") || message;
@@ -11007,11 +11001,12 @@ const UpVue = {
         app.use(apolloProvider);
         app.provide(DefaultApolloClient, apolloClient);
       } else {
+        const apolloClient = config.get("graphql.client");
         const apolloProvider = createApolloProvider({
-          defaultClient: config.get("graphql.client")
+          defaultClient: apolloClient
         });
         app.use(apolloProvider);
-        app.provide(DefaultApolloClient, config.get("graphql.client"));
+        app.provide(DefaultApolloClient, apolloClient);
       }
     }
     app.provide("UpVue", options);
@@ -11024,6 +11019,7 @@ const UpVue = {
         store,
         form,
         formApi,
+        graphql,
         message,
         notification,
         i18n,

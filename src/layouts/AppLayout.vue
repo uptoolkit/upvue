@@ -108,7 +108,7 @@
           <!--/ Sidebar-->
           <!-- Main -->
           <main class="flex-1 relative z-0 overflow-y-auto focus:outline-none">
-            <slot name="main"></slot>
+            <slot></slot>
           </main>
           <!--/ Main -->
           <!-- Aside -->

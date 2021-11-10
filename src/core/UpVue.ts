@@ -4,13 +4,11 @@ import Antd from 'ant-design-vue';
 import {message, notification} from 'ant-design-vue';
 import {VueI18n, createI18n} from '@cherrypulp/i18n';
 import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client/core';
-import { DefaultApolloClient } from '@vue/apollo-composable';
+import { DefaultApolloClient, provideApolloClient } from '@vue/apollo-composable';
 import { createApolloProvider } from '@vue/apollo-option';
-import Config from 'js-config-helper';
-// @ts-ignore
-import {axios} from '@bundled-es-modules/axios';
+import {Config} from 'js-config-helper';
+import axios from "axios";
 import UpLayout from '../layouts/UpLayout.vue';
-// @ts-ignore
 import {Form} from 'js-form-helper';
 import {Axios, AxiosInstance} from "axios";
 import I18n from "@cherrypulp/i18n/types/I18n";
@@ -45,6 +43,21 @@ interface VueOptions {
     exclude:Array<string>
 }
 
+export interface exportedVars {
+    config: boolean;
+    api: boolean;
+    http: boolean;
+    i18n: boolean;
+    form: Form;
+    formApi: Form;
+    store?: boolean;
+    t?(key: string, data?: object, lang?: string): string | any;
+    __?(key: string, data?: object, lang?: string): string | any;
+    choice?(key: string, count?: number, data?: any, locale?: string): string | any;
+    message?: typeof message;
+    notification?: typeof notification;
+}
+
 /**
  * If defined we allow to use the window global of axios and translations
  */
@@ -68,7 +81,7 @@ let graphql: ApolloClient<any>| unknown;
 /**
  * Access to the instance a a singleton
  */
-export let useUp:unknown|Function;
+export let useUp:exportedVars|Function;
 
 export const UpVue = {
 
@@ -96,7 +109,7 @@ export const UpVue = {
 
         // Define form helper and wrapper from the Form Lib
         if (!config.has('exclude.form')) {
-            form = function (data: object, options: object) {
+            form = function (data: object, options: object):Form {
                 return new Form(data, {
                     ...{
                         http
@@ -105,7 +118,7 @@ export const UpVue = {
                 });
             }
 
-            formApi = function (data: object, options: object) {
+            formApi = function(data: object, options: object):Form {
                 return new Form(data, {
                     ...{
                         http: api
@@ -173,16 +186,21 @@ export const UpVue = {
                     defaultClient: apolloClient,
                 });
 
+                provideApolloClient(apolloClient);
+
                 app.use(apolloProvider);
                 app.provide(DefaultApolloClient, apolloClient);
             } else {
 
+                const apolloClient = config.get('graphql.client');
+
                 const apolloProvider = createApolloProvider(<ApolloProviderOptions>{
-                    defaultClient: config.get('graphql.client'),
+                    defaultClient: apolloClient,
                 });
 
+                provideApolloClient(apolloClient);
                 app.use(apolloProvider);
-                app.provide(DefaultApolloClient, config.get('graphql.client'));
+                app.provide(DefaultApolloClient, apolloClient);
             }
         }
 
@@ -202,6 +220,7 @@ export const UpVue = {
                 store,
                 form,
                 formApi,
+                graphql,
                 message,
                 notification,
                 i18n,
@@ -215,7 +234,7 @@ export const UpVue = {
                 console.log('⤴ useUp() accessible vars :', exported);
             }
 
-            useUp = () => {
+            useUp = ():exportedVars => {
                 return exported
             };
         }

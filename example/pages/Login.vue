@@ -63,10 +63,12 @@
 </template>
 
 <script setup>
-import {useUp} from "../../src/core/UpVue";
+import {useUp} from "../../src";
 import { useStorage } from '@vueuse/core'
 
 const {formApi, message, api} = useUp();
+
+console.log(formApi);
 
 // Form helper from form-backend-validation
 let form = formApi({email: 'john@doe.com', 'password': 'doe'});
