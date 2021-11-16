@@ -57,14 +57,14 @@ defineComponent({
 });
 
 // You can also have access to config through useUp()
-const {config, message, notification, t} = useUp();
+const {config, message, notification, t, graphqlQuery} = useUp();
 
 const handleAlert = () => {
   message.info('This is a normal message');
   notification.info('This is a normal message');
 }
 
-const { result, loading } = useQuery(gql`
+const { result, loading } = graphqlQuery(gql`
       query getUsers {
         users {
           id

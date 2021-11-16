@@ -1,10 +1,18 @@
-import {reactive} from 'vue';
+import {provide, reactive, Ref} from 'vue';
 import type {App} from 'vue';
 import Antd from 'ant-design-vue';
 import {message, notification} from 'ant-design-vue';
 import {VueI18n, createI18n} from '@cherrypulp/i18n';
 import {ApolloClient, createHttpLink, InMemoryCache} from '@apollo/client/core';
-import {DefaultApolloClient, provideApolloClient} from '@vue/apollo-composable';
+import {
+    DefaultApolloClient,
+    provideApolloClient,
+    UseQueryReturn,
+    useResult,
+    UseResultReturn
+} from '@vue/apollo-composable';
+import {useQuery} from '@vue/apollo-composable';
+import gql from 'graphql-tag';
 import {createApolloProvider} from '@vue/apollo-option';
 import {Config} from 'js-config-helper';
 import axios from "axios";
@@ -14,11 +22,13 @@ import {Axios, AxiosInstance} from "axios";
 import I18n from "@cherrypulp/i18n/types/I18n";
 import {Store} from "vuex";
 import {ApolloProviderOptions} from "@vue/apollo-option/types/apollo-provider";
+import {DeepNonNullable, DeepRequired} from "ts-essentials";
+import {DocumentParameter} from "@vue/apollo-composable/dist/useQuery";
 
 /**
  * Define the vue options interface
  */
-interface VueOptions {
+export interface VueOptions {
     debug: boolean,
     project: {
         name: string,
@@ -37,10 +47,25 @@ interface VueOptions {
         url?: string;
         client?: any;
     };
+    gql: typeof useQuery;
     translations: Record<string, object | string>;
     locale: string;
     locales: Record<string, object>;
     exclude: Array<string>
+}
+
+export interface graphqlQuery{
+    (Document:undefined):UseQueryReturn<any, any>
+}
+
+export interface graphqlResult<
+    TResult,
+    TDefaultValue,
+    TReturnValue,
+    > {
+    result: Ref<TResult>,
+    defaultValue?: TDefaultValue,
+    pick?: (data: DeepRequired<DeepNonNullable<TResult>>) => TReturnValue,
 }
 
 export interface exportedVars {
@@ -51,13 +76,11 @@ export interface exportedVars {
     form: Form;
     formApi: Form;
     store?: boolean;
-
     t?(key: string, data?: object, lang?: string): string | any;
-
     __?(key: string, data?: object, lang?: string): string | any;
-
     choice?(key: string, count?: number, data?: any, locale?: string): string | any;
-
+    graphqlQuery:graphqlQuery;
+    graphqlResult:graphqlResult<any, any, any>;
     message?: typeof message;
     notification?: typeof notification;
 }
@@ -80,7 +103,7 @@ let i18n: I18n;
 let store: Store<object> | unknown;
 let form: Form;
 let formApi: Form;
-let graphql: ApolloClient<any> | unknown;
+let graphql: ApolloClient<any>;
 
 /**
  * Access to the instance a a singleton
@@ -196,6 +219,7 @@ export const UpVue = {
 
                 app.use(apolloProvider);
                 app.provide(DefaultApolloClient, apolloClient);
+                provide(DefaultApolloClient, apolloClient);
                 graphql = apolloClient;
             } else {
 
@@ -208,6 +232,7 @@ export const UpVue = {
                 provideApolloClient(apolloClient);
                 app.use(apolloProvider);
                 app.provide(DefaultApolloClient, apolloClient);
+                provide(DefaultApolloClient, apolloClient);
                 graphql = apolloClient;
             }
         }
@@ -226,10 +251,19 @@ export const UpVue = {
             store,
             form,
             formApi,
-            graphql,
             message,
             notification,
             i18n,
+            graphql,
+            graphqlQuery:(gqlQuery:any):UseQueryReturn<any, undefined> => {
+                return provideApolloClient(graphql)(() => useQuery(gql(gqlQuery)))
+            },
+            graphqlQueryResult:(gqlQuery:any, defaultValue:any|null, pick:any) => {
+                return provideApolloClient(graphql)(() => {
+                    const {result} = useQuery(gql(gqlQuery));
+                    return useResult(result, defaultValue, pick);
+                })
+            },
             __: i18n.__.bind(i18n),
             t: i18n.__.bind(i18n),
             choice: i18n.choice.bind(i18n),
