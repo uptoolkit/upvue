@@ -1,12 +1,16 @@
+import { Ref } from 'vue';
 import type { App } from 'vue';
 import { message, notification } from 'ant-design-vue';
+import { UseQueryReturn } from '@vue/apollo-composable';
+import { useQuery } from '@vue/apollo-composable';
 import { Form } from 'js-form-helper';
 import { Axios } from "axios";
 import { Store } from "vuex";
+import { DeepNonNullable, DeepRequired } from "ts-essentials";
 /**
  * Define the vue options interface
  */
-interface VueOptions {
+export interface VueOptions {
     debug: boolean;
     project: {
         name: string;
@@ -25,10 +29,19 @@ interface VueOptions {
         url?: string;
         client?: any;
     };
+    gql: typeof useQuery;
     translations: Record<string, object | string>;
     locale: string;
     locales: Record<string, object>;
     exclude: Array<string>;
+}
+export interface graphqlQuery {
+    (Document: undefined): UseQueryReturn<any, any>;
+}
+export interface graphqlResult<TResult, TDefaultValue, TReturnValue> {
+    result: Ref<TResult>;
+    defaultValue?: TDefaultValue;
+    pick?: (data: DeepRequired<DeepNonNullable<TResult>>) => TReturnValue;
 }
 export interface exportedVars {
     config: boolean;
@@ -41,6 +54,8 @@ export interface exportedVars {
     t?(key: string, data?: object, lang?: string): string | any;
     __?(key: string, data?: object, lang?: string): string | any;
     choice?(key: string, count?: number, data?: any, locale?: string): string | any;
+    graphqlQuery: graphqlQuery;
+    graphqlResult: graphqlResult<any, any, any>;
     message?: typeof message;
     notification?: typeof notification;
 }
@@ -57,8 +72,7 @@ declare global {
 /**
  * Access to the instance a a singleton
  */
-export declare let useUp: unknown | exportedVars | Function;
+export declare let useUp: () => exportedVars;
 export declare const UpVue: {
     install: (app: App, options: VueOptions) => void;
 };
-export {};

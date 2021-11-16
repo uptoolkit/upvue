@@ -108,7 +108,7 @@ let graphql: ApolloClient<any>;
 /**
  * Access to the instance a a singleton
  */
-export let useUp: unknown | exportedVars | Function;
+export let useUp: () => exportedVars;
 
 export const UpVue = {
 

@@ -13,14 +13,14 @@ declare namespace _default {
         user: import("vue").Ref<{}>;
         menus: import("vue").Ref<null>;
         loading: import("vue").Ref<boolean>;
-        t: any;
+        t: ((key: string, data?: object | undefined, lang?: string | undefined) => any) | undefined;
         handleLogout: () => void;
     };
     function setup(): {
         user: import("vue").Ref<{}>;
         menus: import("vue").Ref<null>;
         loading: import("vue").Ref<boolean>;
-        t: any;
+        t: ((key: string, data?: object | undefined, lang?: string | undefined) => any) | undefined;
         handleLogout: () => void;
     };
 }

@@ -7,12 +7,12 @@ declare namespace _default {
         export { BellIcon };
     }
     function setup(): {
-        t: any;
+        t: ((key: string, data?: object | undefined, lang?: string | undefined) => any) | undefined;
         items: import("vue").Ref<never[]>;
         loading: import("vue").Ref<boolean>;
     };
     function setup(): {
-        t: any;
+        t: ((key: string, data?: object | undefined, lang?: string | undefined) => any) | undefined;
         items: import("vue").Ref<never[]>;
         loading: import("vue").Ref<boolean>;
     };
