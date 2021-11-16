@@ -39,7 +39,7 @@ export interface VueOptions {
     };
     i18n: Record<string, unknown>;
     storeMode: "reactive" | "vuex";
-    store: Store<unknown | object>;
+    store: Store<unknown | object> | object;
     api: {
         url: string;
     };
@@ -69,13 +69,13 @@ export interface graphqlResult<
 }
 
 export interface exportedVars {
-    config: boolean;
-    api: boolean;
-    http: boolean;
-    i18n: boolean;
-    form: Form;
-    formApi: Form;
-    store?: boolean;
+    config: typeof config;
+    api: AxiosInstance;
+    http: AxiosInstance;
+    i18n: typeof I18n;
+    form: typeof Form;
+    formApi: typeof Form;
+    store?: typeof Store | any;
     t?(key: string, data?: object, lang?: string): string | any;
     __?(key: string, data?: object, lang?: string): string | any;
     choice?(key: string, count?: number, data?: any, locale?: string): string | any;
