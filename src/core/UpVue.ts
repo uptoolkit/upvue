@@ -9,7 +9,6 @@ import {
     provideApolloClient,
     UseQueryReturn,
     useResult,
-    UseResultReturn
 } from '@vue/apollo-composable';
 import {useQuery} from '@vue/apollo-composable';
 import gql from 'graphql-tag';
@@ -23,7 +22,7 @@ import I18n from "@cherrypulp/i18n/types/I18n";
 import {Store} from "vuex";
 import {ApolloProviderOptions} from "@vue/apollo-option/types/apollo-provider";
 import {DeepNonNullable, DeepRequired} from "ts-essentials";
-import {DocumentParameter} from "@vue/apollo-composable/dist/useQuery";
+import {ApolloClientOptions} from "@apollo/client/core/ApolloClient";
 
 /**
  * Define the vue options interface
@@ -54,12 +53,11 @@ export interface VueOptions {
     exclude: Array<string>
 }
 
-export interface graphqlQuery{
-    (Document:undefined):UseQueryReturn<any, any>
+export interface graphqlQuery {
+    (Document: undefined): UseQueryReturn<any, any>
 }
 
-export interface graphqlResult<
-    TResult,
+export interface graphqlResult<TResult,
     TDefaultValue,
     TReturnValue,
     > {
@@ -79,8 +77,9 @@ export interface exportedVars {
     t?(key: string, data?: object, lang?: string): string | any;
     __?(key: string, data?: object, lang?: string): string | any;
     choice?(key: string, count?: number, data?: any, locale?: string): string | any;
-    graphqlQuery:graphqlQuery;
-    graphqlResult:graphqlResult<any, any, any>;
+    graphql: ApolloClient<any>;
+    graphqlQuery: graphqlQuery;
+    graphqlResult: graphqlResult<any, any, any>;
     message?: typeof message;
     notification?: typeof notification;
 }
@@ -255,10 +254,10 @@ export const UpVue = {
             notification,
             i18n,
             graphql,
-            graphqlQuery:(gqlQuery:any):UseQueryReturn<any, undefined> => {
+            graphqlQuery: (gqlQuery: any): UseQueryReturn<any, undefined> => {
                 return provideApolloClient(graphql)(() => useQuery(gql(gqlQuery)))
             },
-            graphqlQueryResult:(gqlQuery:any, defaultValue:any|null, pick:any) => {
+            graphqlQueryResult: (gqlQuery: any, defaultValue: any | null, pick: any) => {
                 return provideApolloClient(graphql)(() => {
                     const {result} = useQuery(gql(gqlQuery));
                     return useResult(result, defaultValue, pick);
