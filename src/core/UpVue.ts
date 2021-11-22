@@ -22,7 +22,6 @@ import I18n from "@cherrypulp/i18n/types/I18n";
 import {Store} from "vuex";
 import {ApolloProviderOptions} from "@vue/apollo-option/types/apollo-provider";
 import {DeepNonNullable, DeepRequired} from "ts-essentials";
-import {ApolloClientOptions} from "@apollo/client/core/ApolloClient";
 
 /**
  * Define the vue options interface
@@ -77,7 +76,7 @@ export interface exportedVars {
     t?(key: string, data?: object, lang?: string): string | any;
     __?(key: string, data?: object, lang?: string): string | any;
     choice?(key: string, count?: number, data?: any, locale?: string): string | any;
-    graphql: ApolloClient<any>;
+    graphql: ApolloClient<object>;
     graphqlQuery: graphqlQuery;
     graphqlResult: graphqlResult<any, any, any>;
     message?: typeof message;
@@ -100,8 +99,8 @@ let http: object | AxiosInstance;
 let config: Config;
 let i18n: I18n;
 let store: Store<object> | unknown;
-let form: Form;
-let formApi: Form;
+let form: typeof Form;
+let formApi: typeof Form;
 let graphql: ApolloClient<any>;
 
 /**
