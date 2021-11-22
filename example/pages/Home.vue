@@ -50,6 +50,7 @@ import PageLayout from "./../layouts/PageLayout.vue";
 import {useUp} from "../../src";
 import { useQuery } from '@vue/apollo-composable'
 import gql from 'graphql-tag'
+import {UserResource, UsersQuery} from "../gql";
 
 defineComponent({
   UpLayout,
@@ -57,25 +58,22 @@ defineComponent({
 });
 
 // You can also have access to config through useUp()
-const {config, message, notification, t, graphqlQuery} = useUp();
+const {config, message, notification, t, graphqlQuery, graphql} = useUp();
 
 const handleAlert = () => {
   message.info('This is a normal message');
   notification.info('This is a normal message');
 }
 
-const { result, loading } = graphqlQuery(gql`
-      query getUsers {
-        users {
-          id
-          firstname
-          lastname
-          email
-        }
-      }
-    `)
+// GraphQL could be accessed using promise and graphql client
+// @see https://v4.apollo.vuejs.org/api/dollar-apollo.html#properties
+graphql.query(UsersQuery).then((res) => {
+  console.log("Example using graphql.query", res);
+}).catch((err) => {
+  console.log("Error using graphql.query", err);
+})
+
+// You can also use the graphqlQuery helper (equivalent to useQuery)
+// @see https://v4.apollo.vuejs.org/api/use-query.html
+const { data, loading, error, result, document } = graphqlQuery(UsersQuery)
 </script>
-
-<style scoped>
-
-</style>
