@@ -48,9 +48,7 @@ import {defineComponent} from "vue";
 import UpLayout from "../../src/layouts/UpLayout.vue";
 import PageLayout from "./../layouts/PageLayout.vue";
 import {useUp} from "../../src";
-import { useQuery } from '@vue/apollo-composable'
-import gql from 'graphql-tag'
-import {UserResource, UsersQuery} from "../gql";
+import {UsersQuery} from "../gql";
 
 defineComponent({
   UpLayout,
