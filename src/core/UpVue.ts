@@ -214,10 +214,9 @@ export const UpVue = {
                 });
 
                 provideApolloClient(apolloClient);
-
-                app.use(apolloProvider);
                 app.provide(DefaultApolloClient, apolloClient);
-                provide(DefaultApolloClient, apolloClient);
+                app.config.globalProperties.DefaultApolloClient = apolloClient;
+                app.use(apolloProvider);
                 graphql = apolloClient;
             } else {
 
@@ -228,9 +227,8 @@ export const UpVue = {
                 });
 
                 provideApolloClient(apolloClient);
-                app.use(apolloProvider);
                 app.provide(DefaultApolloClient, apolloClient);
-                provide(DefaultApolloClient, apolloClient);
+                app.use(apolloProvider);
                 graphql = apolloClient;
             }
         }
