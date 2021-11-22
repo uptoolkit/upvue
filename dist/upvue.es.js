@@ -14,7 +14,7 @@ var __spreadValues = (a, b) => {
     }
   return a;
 };
-import { computed, getCurrentInstance, ref, onServerPrefetch, watch, isRef, onBeforeUnmount, inject, reactive, nextTick, onUnmounted, defineComponent, resolveComponent, openBlock, createBlock, withCtx, renderSlot, provide } from "vue";
+import { computed, getCurrentInstance, ref, onServerPrefetch, watch, isRef, onBeforeUnmount, inject, reactive, nextTick, onUnmounted, defineComponent, resolveComponent, openBlock, createBlock, withCtx, renderSlot } from "vue";
 import Antd, { ConfigProvider, message, notification } from "ant-design-vue";
 import axios$1 from "axios";
 class I18n {
@@ -13402,9 +13402,9 @@ const UpVue = {
           defaultClient: apolloClient
         });
         provideApolloClient(apolloClient);
-        app.use(apolloProvider);
         app.provide(DefaultApolloClient, apolloClient);
-        provide(DefaultApolloClient, apolloClient);
+        app.config.globalProperties.DefaultApolloClient = apolloClient;
+        app.use(apolloProvider);
         graphql = apolloClient;
       } else {
         const apolloClient = config.get("graphql.client");
@@ -13412,9 +13412,8 @@ const UpVue = {
           defaultClient: apolloClient
         });
         provideApolloClient(apolloClient);
-        app.use(apolloProvider);
         app.provide(DefaultApolloClient, apolloClient);
-        provide(DefaultApolloClient, apolloClient);
+        app.use(apolloProvider);
         graphql = apolloClient;
       }
     }
