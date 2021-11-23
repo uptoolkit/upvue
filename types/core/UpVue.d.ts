@@ -46,13 +46,14 @@ export interface graphqlResult<TResult, TDefaultValue, TReturnValue> {
     defaultValue?: TDefaultValue;
     pick?: (data: DeepRequired<DeepNonNullable<TResult>>) => TReturnValue;
 }
+export declare type FormFunction = (data?: object, options?: object) => Form;
 export interface exportedVars {
     config: typeof config;
     api: AxiosInstance;
     http: AxiosInstance;
     i18n: typeof I18n;
-    form: typeof Form;
-    formApi: typeof Form;
+    form: FormFunction;
+    formApi: FormFunction;
     store?: typeof Store | any;
     t?(key: string, data?: object, lang?: string): string | any;
     __?(key: string, data?: object, lang?: string): string | any;
