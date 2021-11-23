@@ -65,15 +65,15 @@ export interface graphqlResult<TResult,
     pick?: (data: DeepRequired<DeepNonNullable<TResult>>) => TReturnValue,
 }
 
-export type FormInstance = (data?:object, options?: object) => Form;
+export type FormFunction = (data?:object, options?: object) => Form;
 
 export interface exportedVars {
     config: typeof config;
     api: AxiosInstance;
     http: AxiosInstance;
     i18n: typeof I18n;
-    form: FormInstance;
-    formApi: FormInstance;
+    form: FormFunction;
+    formApi: FormFunction;
     store?: typeof Store | any;
     t?(key: string, data?: object, lang?: string): string | any;
     __?(key: string, data?: object, lang?: string): string | any;
@@ -101,8 +101,8 @@ let http: object | AxiosInstance;
 let config: Config;
 let i18n: I18n;
 let store: Store<object> | unknown;
-let form: typeof Form;
-let formApi: typeof Form;
+let form: FormFunction;
+let formApi: FormFunction;
 let graphql: ApolloClient<any>;
 
 /**
