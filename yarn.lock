@@ -4026,10 +4026,10 @@ js-config-helper@^1.1.0:
   resolved "https://registry.yarnpkg.com/js-config-helper/-/js-config-helper-1.1.0.tgz#c246ccf0901d33f7a7d66a95faee1599b35667ab"
   integrity sha512-qSo1m9VIpeZgaYLPtbJo3ZcQZ9R/ule6GAM38c79Cy9/A3BSfsCIx5J+WaZta/cLKCkRyJwWHD965aBKo6VxWg==
 
-js-form-helper@^1.2.1:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/js-form-helper/-/js-form-helper-1.2.1.tgz#9f64d3d6faa7be55f90fc34b72c3776a02f1f233"
-  integrity sha512-B6BVvHNXHFdjMV6HEetUBl5WjA1Q5lOFSkZVlWCBY4FRupN8RGf2oIyveXyZqaphAYvlut7LR0BsG5M9qbhwpw==
+js-form-helper@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/js-form-helper/-/js-form-helper-1.2.2.tgz#b8fc6c65b876d110ee3914c85f683addafb8f213"
+  integrity sha512-k0Cbmj1M21zJiIkE3LKDxf4u0s/4jl7UM++d2S+L89SXhrl2aHGFtrq44B16SRmZ89uVAV0aDtCMgPv1hZBA2A==
   dependencies:
     axios "^0.23.0"
     axios-es6 "^0.11.1"

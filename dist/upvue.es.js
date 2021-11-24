@@ -13306,7 +13306,7 @@ class Form {
     let validation = new validator(this.data(), rules2, customMessages);
     if (validation.fails()) {
       this.successful = false;
-      this.errors.record(validation.errors.all());
+      this.withErrors(validation.errors.all());
     } else {
       this.successful = true;
     }
