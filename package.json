@@ -59,7 +59,7 @@
     "graphql": "^15.6.1",
     "graphql-tag": "^2.12.5",
     "js-config-helper": "^1.1.0",
-    "js-form-helper": "^1.2.2",
+    "js-form-helper": "^1.2.3",
     "lodash": "^4.17.21",
     "tailwindcss": "^2.2.16",
     "vue": "^3.1.5",

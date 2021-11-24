@@ -18,6 +18,9 @@ fi
 # abort on errors
 set -e
 
+# Build types
+yarn run types
+
 # Push to repo
 vite build
 
