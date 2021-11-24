@@ -11694,6 +11694,9 @@ function mergeObjectOptions(to, from) {
 function createApolloProvider(options) {
   return new ApolloProvider(options);
 }
+function commonjsRequire(path) {
+  throw new Error('Could not dynamically require "' + path + '". Please configure the dynamicRequireTargets or/and ignoreDynamicRequires option of @rollup/plugin-commonjs appropriately for this require call to work.');
+}
 var Config_1 = void 0;
 var Config = function() {
   function Config2(options) {
@@ -11793,159 +11796,6 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   });
 }
 var UpLayout$1 = /* @__PURE__ */ _export_sfc(_sfc_main, [["render", _sfc_render]]);
-var __defProp2 = Object.defineProperty;
-var __defNormalProp2 = (obj, key, value) => key in obj ? __defProp2(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __publicField = (obj, key, value) => {
-  __defNormalProp2(obj, typeof key !== "symbol" ? key + "" : key, value);
-  return value;
-};
-class Errors$2 {
-  constructor(errors2 = {}) {
-    this.record(errors2);
-  }
-  all() {
-    return this.errors;
-  }
-  has(field) {
-    let hasError = this.errors.hasOwnProperty(field);
-    if (!hasError) {
-      const errors2 = Object.keys(this.errors).filter((e) => e.startsWith(`${field}.`) || e.startsWith(`${field}[`));
-      hasError = errors2.length > 0;
-    }
-    return hasError;
-  }
-  first(field) {
-    return this.get(field)[0];
-  }
-  get(field) {
-    return this.errors[field] || [];
-  }
-  any(keys = []) {
-    if (keys.length === 0) {
-      return Object.keys(this.errors).length > 0;
-    }
-    let errors2 = {};
-    keys.forEach((key) => errors2[key] = this.get(key));
-    return errors2;
-  }
-  record(errors2 = {}) {
-    this.errors = errors2;
-  }
-  clear(field) {
-    if (!field) {
-      this.errors = {};
-      return;
-    }
-    let errors2 = Object.assign({}, this.errors);
-    Object.keys(errors2).filter((e) => e === field || e.startsWith(`${field}.`) || e.startsWith(`${field}[`)).forEach((e) => delete errors2[e]);
-    this.errors = errors2;
-  }
-}
-function isArray(object) {
-  return Object.prototype.toString.call(object) === "[object Array]";
-}
-function isFile(object) {
-  return object instanceof File || object instanceof FileList;
-}
-function merge(a, b) {
-  for (const key in b) {
-    a[key] = cloneDeep(b[key]);
-  }
-}
-function cloneDeep(object) {
-  if (object === null) {
-    return null;
-  }
-  if (isFile(object)) {
-    return object;
-  }
-  if (Array.isArray(object)) {
-    const clone = [];
-    for (const key in object) {
-      if (object.hasOwnProperty(key)) {
-        clone[key] = cloneDeep(object[key]);
-      }
-    }
-    return clone;
-  }
-  if (typeof object === "object") {
-    const clone = {};
-    for (const key in object) {
-      if (object.hasOwnProperty(key)) {
-        clone[key] = cloneDeep(object[key]);
-      }
-    }
-    return clone;
-  }
-  return object;
-}
-function objectToFormData(object, formData = new FormData(), parent = null) {
-  if (object === null || object === "undefined" || object.length === 0) {
-    return formData.append(parent, object);
-  }
-  for (const property in object) {
-    if (object.hasOwnProperty(property)) {
-      appendToFormData(formData, getKey(parent, property), object[property]);
-    }
-  }
-  return formData;
-}
-function getKey(parent, property) {
-  return parent ? parent + "[" + property + "]" : property;
-}
-function appendToFormData(formData, key, value) {
-  if (value instanceof Date) {
-    return formData.append(key, value.toISOString());
-  }
-  if (value instanceof File) {
-    return formData.append(key, value, value.name);
-  }
-  if (typeof value === "boolean") {
-    return formData.append(key, value ? "1" : "0");
-  }
-  if (value === null) {
-    return formData.append(key, "");
-  }
-  if (typeof value !== "object") {
-    return formData.append(key, value);
-  }
-  objectToFormData(value, formData, key);
-}
-const reservedFieldNames = [
-  "__http",
-  "__options",
-  "__validateRequestType",
-  "clear",
-  "data",
-  "delete",
-  "errors",
-  "getError",
-  "getErrors",
-  "hasError",
-  "initial",
-  "onFail",
-  "only",
-  "onSuccess",
-  "patch",
-  "populate",
-  "post",
-  "processing",
-  "successful",
-  "put",
-  "reset",
-  "submit",
-  "withData",
-  "withErrors",
-  "withOptions"
-];
-function guardAgainstReservedFieldName(fieldName) {
-  if (reservedFieldNames.indexOf(fieldName) !== -1) {
-    throw new Error(`Field name ${fieldName} isn't allowed to be used in a Form or Errors instance.`);
-  }
-}
-function commonjsRequire(path) {
-  throw new Error('Could not dynamically require "' + path + '". Please configure the dynamicRequireTargets or/and ignoreDynamicRequires option of @rollup/plugin-commonjs appropriately for this require call to work.');
-}
 function leapYear(year) {
   return year % 4 === 0 && year % 100 !== 0 || year % 400 === 0;
 }
@@ -12688,11 +12538,11 @@ var container = {
   }
 };
 var lang = container;
-var Errors$1 = function() {
+var Errors$2 = function() {
   this.errors = {};
 };
-Errors$1.prototype = {
-  constructor: Errors$1,
+Errors$2.prototype = {
+  constructor: Errors$2,
   add: function(attribute, message2) {
     if (!this.has(attribute)) {
       this.errors[attribute] = [];
@@ -12723,7 +12573,7 @@ Errors$1.prototype = {
     return false;
   }
 };
-var errors = Errors$1;
+var errors = Errors$2;
 function AsyncResolvers$1(onFailedOne, onResolvedAll) {
   this.onResolvedAll = onResolvedAll;
   this.onFailedOne = onFailedOne;
@@ -12768,7 +12618,7 @@ AsyncResolvers$1.prototype = {
 var async = AsyncResolvers$1;
 var Rules = rules_1;
 var Lang = lang;
-var Errors = errors;
+var Errors$1 = errors;
 var Attributes = attributes;
 var AsyncResolvers = async;
 var Validator = function(input, rules2, customMessages) {
@@ -12777,7 +12627,7 @@ var Validator = function(input, rules2, customMessages) {
   this.messages = Lang._make(lang2);
   this.messages._setCustom(customMessages);
   this.setAttributeFormatter(Validator.prototype.attributeFormatter);
-  this.errors = new Errors();
+  this.errors = new Errors$1();
   this.errorCount = 0;
   this.hasAsync = false;
   this.rules = this._parseRules(rules2);
@@ -13121,6 +12971,156 @@ Validator.registerMissedRuleValidator = function(fn, message2) {
   Rules.registerMissedRuleValidator(fn, message2);
 };
 var validator = Validator;
+var __defProp2 = Object.defineProperty;
+var __defNormalProp2 = (obj, key, value) => key in obj ? __defProp2(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __publicField = (obj, key, value) => {
+  __defNormalProp2(obj, typeof key !== "symbol" ? key + "" : key, value);
+  return value;
+};
+class Errors {
+  constructor(errors2 = {}) {
+    this.record(errors2);
+  }
+  all() {
+    return this.errors;
+  }
+  has(field) {
+    let hasError = this.errors.hasOwnProperty(field);
+    if (!hasError) {
+      const errors2 = Object.keys(this.errors).filter((e) => e.startsWith(`${field}.`) || e.startsWith(`${field}[`));
+      hasError = errors2.length > 0;
+    }
+    return hasError;
+  }
+  first(field) {
+    return this.get(field)[0];
+  }
+  get(field) {
+    return this.errors[field] || [];
+  }
+  any(keys = []) {
+    if (keys.length === 0) {
+      return Object.keys(this.errors).length > 0;
+    }
+    let errors2 = {};
+    keys.forEach((key) => errors2[key] = this.get(key));
+    return errors2;
+  }
+  record(errors2 = {}) {
+    this.errors = errors2;
+  }
+  clear(field) {
+    if (!field) {
+      this.errors = {};
+      return;
+    }
+    let errors2 = Object.assign({}, this.errors);
+    Object.keys(errors2).filter((e) => e === field || e.startsWith(`${field}.`) || e.startsWith(`${field}[`)).forEach((e) => delete errors2[e]);
+    this.errors = errors2;
+  }
+}
+function isArray(object) {
+  return Object.prototype.toString.call(object) === "[object Array]";
+}
+function isFile(object) {
+  return object instanceof File || object instanceof FileList;
+}
+function merge(a, b) {
+  for (const key in b) {
+    a[key] = cloneDeep(b[key]);
+  }
+}
+function cloneDeep(object) {
+  if (object === null) {
+    return null;
+  }
+  if (isFile(object)) {
+    return object;
+  }
+  if (Array.isArray(object)) {
+    const clone = [];
+    for (const key in object) {
+      if (object.hasOwnProperty(key)) {
+        clone[key] = cloneDeep(object[key]);
+      }
+    }
+    return clone;
+  }
+  if (typeof object === "object") {
+    const clone = {};
+    for (const key in object) {
+      if (object.hasOwnProperty(key)) {
+        clone[key] = cloneDeep(object[key]);
+      }
+    }
+    return clone;
+  }
+  return object;
+}
+function objectToFormData(object, formData = new FormData(), parent = null) {
+  if (object === null || object === "undefined" || object.length === 0) {
+    return formData.append(parent, object);
+  }
+  for (const property in object) {
+    if (object.hasOwnProperty(property)) {
+      appendToFormData(formData, getKey(parent, property), object[property]);
+    }
+  }
+  return formData;
+}
+function getKey(parent, property) {
+  return parent ? parent + "[" + property + "]" : property;
+}
+function appendToFormData(formData, key, value) {
+  if (value instanceof Date) {
+    return formData.append(key, value.toISOString());
+  }
+  if (value instanceof File) {
+    return formData.append(key, value, value.name);
+  }
+  if (typeof value === "boolean") {
+    return formData.append(key, value ? "1" : "0");
+  }
+  if (value === null) {
+    return formData.append(key, "");
+  }
+  if (typeof value !== "object") {
+    return formData.append(key, value);
+  }
+  objectToFormData(value, formData, key);
+}
+const reservedFieldNames = [
+  "__http",
+  "__options",
+  "__validateRequestType",
+  "clear",
+  "data",
+  "delete",
+  "errors",
+  "getError",
+  "getErrors",
+  "hasError",
+  "initial",
+  "onFail",
+  "only",
+  "onSuccess",
+  "patch",
+  "populate",
+  "post",
+  "processing",
+  "successful",
+  "put",
+  "reset",
+  "submit",
+  "withData",
+  "withErrors",
+  "withOptions"
+];
+function guardAgainstReservedFieldName(fieldName) {
+  if (reservedFieldNames.indexOf(fieldName) !== -1) {
+    throw new Error(`Field name ${fieldName} isn't allowed to be used in a Form or Errors instance.`);
+  }
+}
 class Form {
   constructor(data = {}, options = {}) {
     __publicField(this, "processing");
@@ -13140,7 +13140,7 @@ class Form {
       }, {});
     }
     this.setInitialValues(data);
-    this.errors = new Errors$2();
+    this.errors = new Errors();
     this.processing = false;
     this.successful = false;
     for (const field in data) {
@@ -13150,7 +13150,7 @@ class Form {
     return this;
   }
   withErrors(errors2) {
-    this.errors = new Errors$2(errors2);
+    this.errors = new Errors(errors2);
     return this;
   }
   withOptions(options) {
@@ -13302,7 +13302,8 @@ class Form {
     this.errors.clear();
     this.processing = true;
     this.successful = false;
-    let validation = new validator(this.data(), rules2, customErrorMessages);
+    let customMessages = customErrorMessages || {};
+    let validation = new validator(this.data(), rules2, customMessages);
     if (validation.fails()) {
       this.successful = false;
       this.errors.record(validation.errors.all());
