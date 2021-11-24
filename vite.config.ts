@@ -33,6 +33,7 @@ export default defineConfig({
         "core-js",
         "daisyui",
         "form-backend-validation",
+        "js-form-helper",
         "lodash",
         "moment",
         "tailwindcss",
