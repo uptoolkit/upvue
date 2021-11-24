@@ -11903,6 +11903,7 @@ const UpVue = {
       },
       __: i18n.__.bind(i18n),
       t: i18n.__.bind(i18n),
+      trans: i18n.__.bind(i18n),
       choice: i18n.choice.bind(i18n)
     }, override);
     if (config.has("debug")) {

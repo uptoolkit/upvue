@@ -76,6 +76,7 @@ export interface exportedVars {
     formApi: FormFunction;
     store?: typeof Store | any;
     t?(key: string, data?: object, lang?: string): string | any;
+    trans?(key: string, data?: object, lang?: string): string | any;
     __?(key: string, data?: object, lang?: string): string | any;
     choice?(key: string, count?: number, data?: any, locale?: string): string | any;
     graphql: ApolloClient<object>;
@@ -264,6 +265,7 @@ export const UpVue = {
             },
             __: i18n.__.bind(i18n),
             t: i18n.__.bind(i18n),
+            trans: i18n.__.bind(i18n),
             choice: i18n.choice.bind(i18n),
             ...override
         }
