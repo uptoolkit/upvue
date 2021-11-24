@@ -11799,22 +11799,6 @@ var __publicField = (obj, key, value) => {
   __defNormalProp2(obj, typeof key !== "symbol" ? key + "" : key, value);
   return value;
 };
-function _mergeNamespaces(n, m) {
-  m.forEach(function(e) {
-    Object.keys(e).forEach(function(k) {
-      if (k !== "default" && !(k in n)) {
-        var d = Object.getOwnPropertyDescriptor(e, k);
-        Object.defineProperty(n, k, d.get ? d : {
-          enumerable: true,
-          get: function() {
-            return e[k];
-          }
-        });
-      }
-    });
-  });
-  return Object.freeze(n);
-}
 class Errors$2 {
   constructor(errors2 = {}) {
     this.record(errors2);
@@ -13137,11 +13121,6 @@ Validator.registerMissedRuleValidator = function(fn, message2) {
   Rules.registerMissedRuleValidator(fn, message2);
 };
 var validator = Validator;
-var Validator$1 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ _mergeNamespaces({
-  __proto__: null,
-  [Symbol.toStringTag]: "Module",
-  "default": validator
-}, [validator]));
 class Form {
   constructor(data = {}, options = {}) {
     __publicField(this, "processing");
@@ -13229,6 +13208,9 @@ class Form {
       this[field] = "";
     }
     this.errors.clear();
+  }
+  get(url) {
+    return this.submit("get", url);
   }
   post(url) {
     return this.submit("post", url);
@@ -13320,7 +13302,7 @@ class Form {
     this.errors.clear();
     this.processing = true;
     this.successful = false;
-    let validation = new Validator$1(this.data(), rules2);
+    let validation = new validator(this.data(), rules2, customErrorMessages);
     if (validation.fails()) {
       this.successful = false;
       this.errors.record(validation.errors.all());
