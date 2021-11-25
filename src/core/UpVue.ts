@@ -1,6 +1,5 @@
-import {provide, reactive, Ref} from 'vue';
+import {reactive, Ref} from 'vue';
 import type {App} from 'vue';
-import Antd from 'ant-design-vue';
 import {message, notification} from 'ant-design-vue';
 import {VueI18n, createI18n} from '@cherrypulp/i18n';
 import {ApolloClient, createHttpLink, InMemoryCache} from '@apollo/client/core';
@@ -190,8 +189,15 @@ export const UpVue = {
         /**
          * Include Antd if it's not excluded
          */
-        if (!config.has('exclude.antd')) {
-            app.use(Antd);
+        if (!config.has('exclude.message')) {
+            app.config.globalProperties.$message = message;
+        }
+
+        /**
+         * Include Antd if it's not excluded
+         */
+        if (!config.has('exclude.notification')) {
+            app.config.globalProperties.$notification = notification;
         }
 
         /**
@@ -279,4 +285,3 @@ export const UpVue = {
         };
     },
 }
-

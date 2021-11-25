@@ -15,7 +15,7 @@ var __spreadValues = (a, b) => {
   return a;
 };
 import { computed, getCurrentInstance, ref, onServerPrefetch, watch, isRef, onBeforeUnmount, inject, reactive, nextTick, onUnmounted, defineComponent, resolveComponent, openBlock, createBlock, withCtx, renderSlot } from "vue";
-import Antd, { ConfigProvider, message, notification } from "ant-design-vue";
+import { ConfigProvider, message, notification } from "ant-design-vue";
 import axios from "axios";
 import { Form } from "js-form-helper";
 class I18n {
@@ -11847,8 +11847,11 @@ const UpVue = {
         options: options.i18n
       });
     }
-    if (!config.has("exclude.antd")) {
-      app.use(Antd);
+    if (!config.has("exclude.message")) {
+      app.config.globalProperties.$message = message;
+    }
+    if (!config.has("exclude.notification")) {
+      app.config.globalProperties.$notification = notification;
     }
     if (!config.has("exclude.graphql")) {
       if (!config.has("graphql.client")) {
